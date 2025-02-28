@@ -14,13 +14,13 @@ export default function Footer() {
   return (
     <motion.footer 
       ref={ref}
-      className="relative pb-12 mt-20"
+      className="relative pb-10 pt-20"
       initial={{ opacity: 0 }}
       animate={inView ? { opacity: 1 } : {}}
       transition={{ duration: 0.5 }}
     >
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-purple-900/10 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-900/10 to-transparent"></div>
 
       <div className="container mx-auto px-4">
         <div className="glass-panel p-8 relative overflow-hidden">

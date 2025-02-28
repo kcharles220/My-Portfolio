@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
   activeSection: string;
@@ -47,9 +48,8 @@ export default function Header({ activeSection }: HeaderProps) {
 
   return (
     <motion.header
-      className={`fixed transition-all transition-[border,background] duration-500 ${
-        scrolled
-          ? 'md:mx-4 md:top-4 md:left-4 md:right-4 md:rounded-full top-0 left-0 right-0 backdrop-blur-md bg-white/5 border-b md:border border-white/10 py-2'
+      className={`fixed transition-all transition-[border,background] duration-500 ${scrolled
+          ? 'md:mx-15 md:top-4 md:left-4 md:right-4 md:rounded-full top-0 left-0 right-0 backdrop-blur-md bg-white/5 border-b md:border border-white/10 py-2'
           : 'top-0 left-0 right-0 bg-transparent border-transparent py-4'
         } z-40`}
       initial={{ y: -100, opacity: 0 }}
@@ -74,28 +74,46 @@ export default function Header({ activeSection }: HeaderProps) {
 
         {/* Desktop Navigation */}
         <nav className={`md:block transition-all duration-500 ${scrolled ? 'w-full' : 'hidden'}`}>
-  <ul className={`flex space-x-6 transition-all duration-500 ${scrolled ? 'justify-center' : 'justify-start'}`}>
-    {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
-      <motion.li 
-        key={item}
-        layout
-        transition={{
-          duration: 0.35,
-          ease: "easeInOut"
-        }}
-      >
-        <button
-          onClick={() => scrollToSection({ sectionId: item })}
-          className={`cursor-pointer nav-link capitalize ${
-            activeSection === item ? 'after:w-full' : ''
-          }`}
-        >
-          {item}
-        </button>
-      </motion.li>
-    ))}
-  </ul>
-</nav>
+          <ul className={`flex space-x-6 transition-all duration-500 ${scrolled ? 'justify-center' : 'justify-start'}`}>
+            {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+              <motion.li
+                key={item}
+                layout
+                transition={{
+                  duration: 0.35,
+                  ease: "easeInOut"
+                }}
+              >
+                <button
+                  onClick={() => scrollToSection({ sectionId: item })}
+                  className={`cursor-pointer nav-link capitalize ${activeSection === item ? 'after:w-full' : ''
+                    }`}
+                >
+                  {item}
+                </button>
+
+              </motion.li>
+
+
+            )
+            )
+            }
+            <motion.li
+              layout
+              transition={{
+                duration: 0.35,
+                ease: "easeInOut"
+              }}
+            >
+              
+                <ThemeToggle />
+
+            </motion.li>
+
+
+
+          </ul>
+        </nav>
 
         {/* Mobile Menu Button */}
         <button

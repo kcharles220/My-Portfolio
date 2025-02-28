@@ -76,7 +76,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   return (
     <section id="contact" ref={sectionRef} className="py-20 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/10 to-black opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b  from-[var(--background)] via-purple-900/10 to-[var(--background)] opacity-50"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

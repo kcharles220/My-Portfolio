@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 
 interface Particle {
   x: number
@@ -13,6 +14,7 @@ interface Particle {
 }
 
 export default function Particles() {
+  const { theme } = useTheme()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const particlesRef = useRef<Particle[]>([])
@@ -23,7 +25,7 @@ export default function Particles() {
   const particleConfig = useRef({
     PARTICLE_COUNT: 100,
     PARTICLE_SIZE_RANGE: { min: 1, max: 3 },
-    PARTICLE_SPEED: 0.4,
+    PARTICLE_SPEED: 0.35,
     CONNECTION_DISTANCE: 150,
     MOUSE_INFLUENCE_DISTANCE: 80,
     MOUSE_REPEL_STRENGTH: 0.5
@@ -63,7 +65,7 @@ export default function Particles() {
       size: Math.random() * (PARTICLE_SIZE_RANGE.max - PARTICLE_SIZE_RANGE.min) + PARTICLE_SIZE_RANGE.min,
       speedX: (Math.random() - 0.5) * PARTICLE_SPEED,
       speedY: (Math.random() - 0.5) * PARTICLE_SPEED,
-      opacity: Math.random() * 0.5 + 0.2
+      opacity: Math.random() * 0.5 + 0.3
     }))
 
     // Mouse move handler
@@ -102,10 +104,12 @@ export default function Particles() {
         if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1
         if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1
 
+        const particleColor = theme === 'dark' ? '255, 255, 255' : '0, 0, 0'
+        
         // Draw particle
         context.beginPath()
         context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        context.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`
+        context.fillStyle = `rgba(${particleColor}, ${particle.opacity})`
         context.fill()
 
         // Draw connections
@@ -119,7 +123,7 @@ export default function Particles() {
             context.beginPath()
             context.moveTo(particle.x, particle.y)
             context.lineTo(otherParticle.x, otherParticle.y)
-            context.strokeStyle = `rgba(255, 255, 255, ${opacity})`
+            context.strokeStyle = `rgba(${particleColor}, ${opacity})`
             context.lineWidth = 0.5
             context.stroke()
           }
@@ -139,7 +143,7 @@ export default function Particles() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, []) // No need for dependencies since we're using refs
+  }, [theme]) // Add theme as a dependency
 
   return (
     <motion.canvas

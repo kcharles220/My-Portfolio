@@ -74,7 +74,7 @@ export default function Skills() {
 
   return (
     <section id="skills" ref={sectionRef} className="py-20 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-900/10 to-black opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] via-purple-900/10 to-[var(--background)] opacity-50"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2 
@@ -91,7 +91,7 @@ export default function Skills() {
             {['technical', 'soft', 'tools'].map((tab) => (
               <button
                 key={tab}
-                className={`px-6 py-2 rounded-lg transition-all duration-300 ${
+                className={`px-6 w-50 py-2 rounded-lg transition-all duration-300  cursor-pointer ${
                   activeTab === tab 
                     ? 'bg-gradient-to-r from-purple-500 to-cyan-400 text-white font-medium' 
                     : 'text-gray-300 hover:text-white'

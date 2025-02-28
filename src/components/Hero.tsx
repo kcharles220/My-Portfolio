@@ -82,7 +82,7 @@ export default function Hero() {
               </a>
               <a 
                 href="#contact" 
-                className="glass-button border-purple-500"
+                className="glass-button glow"
                 onClick={(e) => {
                   e.preventDefault()
                   const contactElement = document.getElementById('contact');
