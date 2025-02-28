@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 
@@ -50,7 +51,7 @@ interface Project {
 }
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
-  const [hovered, setHovered] = useState(false);
+  const [, setHovered] = useState(false);
   const [cardRef, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -67,10 +68,12 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       onMouseLeave={() => setHovered(false)}
     >
       <div className="relative overflow-hidden aspect-video">
-        <img 
+        <Image 
           src={project.image} 
           alt={project.title} 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+          fill
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
           <div className="p-6 w-full">
@@ -130,7 +133,7 @@ export default function Projects() {
         >
           <h2 className="section-title gradient-text">My Projects</h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Here are some of the projects I've worked on. Each one represents different skills and technologies I've mastered.
+            Here are some of the projects I&apos;ve worked on. Each one represents different skills and technologies I&apos;ve mastered.
           </p>
         </motion.div>
 

@@ -19,16 +19,29 @@ export default function Particles() {
   const mouseRef = useRef({ x: 0, y: 0 })
   const animationFrameRef = useRef<number | null>(null)
 
-  const PARTICLE_COUNT = 100
-  const PARTICLE_SIZE_RANGE = { min: 1, max: 3 }
-  const PARTICLE_SPEED = 0.4
-  const CONNECTION_DISTANCE = 150
-  const MOUSE_INFLUENCE_DISTANCE = 80
-  const MOUSE_REPEL_STRENGTH = 0.5
+  // Move constants inside useEffect or make them useRef/useMemo
+  const particleConfig = useRef({
+    PARTICLE_COUNT: 100,
+    PARTICLE_SIZE_RANGE: { min: 1, max: 3 },
+    PARTICLE_SPEED: 0.4,
+    CONNECTION_DISTANCE: 150,
+    MOUSE_INFLUENCE_DISTANCE: 80,
+    MOUSE_REPEL_STRENGTH: 0.5
+  })
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+
+    // Use config from ref
+    const { 
+      PARTICLE_COUNT, 
+      PARTICLE_SIZE_RANGE, 
+      PARTICLE_SPEED,
+      CONNECTION_DISTANCE,
+      MOUSE_INFLUENCE_DISTANCE,
+      MOUSE_REPEL_STRENGTH 
+    } = particleConfig.current
 
     // Initialize canvas context
     const context = canvas.getContext('2d')
@@ -126,7 +139,7 @@ export default function Particles() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [])
+  }, []) // No need for dependencies since we're using refs
 
   return (
     <motion.canvas

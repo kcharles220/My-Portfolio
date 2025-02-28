@@ -35,7 +35,7 @@ export default function About() {
               
               <h3 className="text-xl font-bold mb-4">Who I Am</h3>
               <p className="text-gray-300 mb-4">
-                I'm a computer science student and aspiring developer with a passion for creating elegant, efficient solutions to complex problems. My journey in technology began when I was 14, tinkering with HTML and CSS to build simple websites.
+                I&apos;m a computer science student and aspiring developer with a passion for creating elegant, efficient solutions to complex problems. My journey in technology began when I was 14, tinkering with HTML and CSS to build simple websites.
               </p>
               <p className="text-gray-300">
                 Today, I specialize in full-stack development with particular interest in web applications, user experience design, and modern JavaScript frameworks. I love learning new technologies and applying them to create innovative projects.

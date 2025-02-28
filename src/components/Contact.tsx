@@ -29,12 +29,7 @@ export default function Contact() {
     emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
   }, []);
 
-interface FormData {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
-}
+
 
 interface ChangeEvent {
     target: {
@@ -48,9 +43,7 @@ const handleChange = (e: ChangeEvent) => {
     setFormData(prev => ({ ...prev, [name]: value }));
 }
 
-interface SubmitEvent {
-    preventDefault: () => void;
-}
+
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -94,7 +87,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         >
           <h2 className="section-title gradient-text">Get In Touch</h2>
           <p className="text-gray-300 max-w-2xl mx-auto">
-            Have a project in mind or just want to connect? Feel free to reach out. I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+            Have a project in mind or just want to connect? Feel free to reach out. I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
         </motion.div>
 

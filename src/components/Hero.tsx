@@ -30,7 +30,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              Hello, I'm
+              Hello, I&apos;m
             </motion.h2>
             
             <motion.h1 
