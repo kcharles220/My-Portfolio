@@ -14,7 +14,7 @@ interface Particle {
 }
 
 export default function Particles() {
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme() // Add resolvedTheme
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const particlesRef = useRef<Particle[]>([])
@@ -33,7 +33,7 @@ export default function Particles() {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || !resolvedTheme) return // Check for resolvedTheme
 
     // Use config from ref
     const { 
@@ -104,7 +104,7 @@ export default function Particles() {
         if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1
         if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1
 
-        const particleColor = theme === 'dark' ? '255, 255, 255' : '0, 0, 0'
+        const particleColor = resolvedTheme === 'dark' ? '255, 255, 255' : '0, 0, 0' // Use resolvedTheme instead of theme
         
         // Draw particle
         context.beginPath()
@@ -143,7 +143,9 @@ export default function Particles() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [theme]) // Add theme as a dependency
+  }, [resolvedTheme]) // Use resolvedTheme as dependency
+
+  if (!resolvedTheme) return null // Don't render until theme is resolved
 
   return (
     <motion.canvas
