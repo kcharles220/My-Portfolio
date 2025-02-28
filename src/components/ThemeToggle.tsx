@@ -10,7 +10,7 @@ export default function ThemeToggle() {
   const [isHovered, setIsHovered] = useState(false)
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+    setTheme(theme === 'light' ? 'dark' : 'light')
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
