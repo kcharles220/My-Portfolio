@@ -53,7 +53,7 @@ export default function ThemeToggle() {
         <motion.svg
           viewBox="0 0 24 24"
           className={`w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
-            theme === 'dark' ? 'text-white' : 'text-black'
+            theme === 'light' ? 'text-black' : 'text-white'
           }`}
           animate={{ rotate: theme === 'dark' ? 0 : 180 }}
         >
