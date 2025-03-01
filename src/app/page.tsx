@@ -22,10 +22,10 @@ export default function Home() {
     // Create an array of image URLs to preload
     const imagesToPreload = [
       // Add your critical images here
-      '/images/explorer1.png',
-      '/images/explorer2.png',
-      '/images/explorer3.png',
-      '/images/explorer4.png',
+      '/My-Portfolio/images/explorer1.png',
+      '/My-Portfolio/images/explorer2.png',
+      '/My-Portfolio/images/explorer3.png',
+      '/My-Portfolio/images/explorer4.png',
       // Add more image paths as needed
     ]
 
