@@ -16,15 +16,55 @@ import GooLoader from '@/components/GooLoader'
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home')
   const [isLoading, setIsLoading] = useState(true)
+  const [assetsLoaded, setAssetsLoaded] = useState(false)
 
   useEffect(() => {
-    // Simulate loading state
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
+    // Create an array of image URLs to preload
+    const imagesToPreload = [
+      // Add your critical images here
+      '/images/explorer1.png',
+      '/images/explorer2.png',
+      '/images/explorer3.png',
+      '/images/explorer4.png',
+      // Add more image paths as needed
+    ]
 
-    return () => clearTimeout(timer)
+    // Function to preload images
+    const preloadImages = async () => {
+      const imagePromises = imagesToPreload.map(src => {
+        return new Promise((resolve, reject) => {
+          const img = new Image()
+          img.src = src
+          img.onload = resolve
+          img.onerror = reject
+        })
+      })
+
+      try {
+        await Promise.all(imagePromises)
+        setAssetsLoaded(true)
+      } catch (error) {
+        console.error('Failed to load some images:', error)
+        // Still set loaded to true to prevent infinite loading
+        setAssetsLoaded(true)
+      }
+    }
+
+    // Check if the document is ready
+    if (document.readyState === 'complete') {
+      preloadImages()
+    } else {
+      window.addEventListener('load', preloadImages)
+      return () => window.removeEventListener('load', preloadImages)
+    }
   }, [])
+
+  // Update loading state based on document and assets loading
+  useEffect(() => {
+    if (assetsLoaded) {
+      setIsLoading(false)
+    }
+  }, [assetsLoaded])
 
   useEffect(() => {
     const handleScroll = () => {

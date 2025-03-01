@@ -11,6 +11,7 @@ const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
 export default function Contact() {
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,8 +19,9 @@ export default function Contact() {
     message: ''
   })
   
-  const [formStatus, setFormStatus] = useState<'sending' | 'success' | 'error' | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [, setFormStatus] = useState<'sending' | 'success' | 'error' | null>(null)
+  const [, setError] = useState<string | null>(null)
+
   const [sectionRef, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -30,7 +32,7 @@ export default function Contact() {
   }, []);
 
 
-
+/*
 interface ChangeEvent {
     target: {
         name: string;
@@ -42,7 +44,7 @@ const handleChange = (e: ChangeEvent) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
 }
-
+*/
 
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -89,6 +91,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
           <p className="text-gray-300 max-w-2xl mx-auto">
             Have a project in mind or just want to connect? Feel free to reach out. I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
           </p>
+          <div className="mt-4 text-amber-400 font-medium bg-amber-400/10 border border-amber-400/20 rounded-lg p-3 max-w-2xl mx-auto mb-[-40]">
+            ⚠️ The contact form is currently disabled due to GitHub Pages limitations. Please reach out via email or social media instead.
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -98,90 +103,64 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="glass-panel p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
+            <form onSubmit={handleSubmit} className="glass-panel p-6 opacity-50 cursor-not-allowed">
+              {/* Add pointer-events-none to disable all interactions */}
+              <div className="pointer-events-none">
+                {/* ... existing form fields with disabled attribute ... */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">Your Name</label>
+                    <input
+                      disabled
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
+                      placeholder="John Doe"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
+                    <input
+                      disabled
+                      type="email"
+                      id="email"
+                      name="email"
+                      className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
+                      placeholder="john.doe@example.com"
+                    />
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">Subject</label>
                   <input
+                    disabled
                     type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 glass-panel bg-white/5 focus:bg-white/10 border-0 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-colors duration-300"
-                    placeholder="John Doe"
+                    id="subject"
+                    name="subject"
+                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
+                    placeholder="Project Inquiry"
                   />
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">Your Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 glass-panel bg-white/5 focus:bg-white/10 border-0 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-colors duration-300"
-                    placeholder="john.doe@example.com"
-                  />
+                <div className="mb-6">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">Message</label>
+                  <textarea
+                    disabled
+                    id="message"
+                    name="message"
+                    rows={6}
+                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed resize-none"
+                    placeholder="Hello, I'd like to talk about..."
+                  ></textarea>
                 </div>
-              </div>
-              <div className="mb-6">
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 glass-panel bg-white/5 focus:bg-white/10 border-0 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-colors duration-300"
-                  placeholder="Project Inquiry"
-                />
-              </div>
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 glass-panel bg-white/5 focus:bg-white/10 border-0 focus:ring-2 focus:ring-purple-500 focus:outline-none transition-colors duration-300 resize-none"
-                  placeholder="Hello, I'd like to talk about..."
-                ></textarea>
               </div>
               <button
+                disabled
                 type="submit"
-                disabled={formStatus === 'sending'}
-                className="glass-button glow px-6 py-3 flex items-center justify-center gap-2"
+                className="glass-button glow px-6 py-3 opacity-50 cursor-not-allowed"
               >
-                {formStatus === 'sending' ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Sending...
-                  </>
-                ) : formStatus === 'success' ? (
-                  <>
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                    Message Sent!
-                  </>
-                ) : (
-                  'Send Message'
-                )}
+                Send Message
               </button>
-              {error && (
-                <div className="mt-4 text-red-500 text-sm">
-                  {error}
-                </div>
-              )}
             </form>
           </motion.div>
 

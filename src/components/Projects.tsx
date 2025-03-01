@@ -1,41 +1,39 @@
 // File: src/components/Projects.js
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 
 const projects = [
   {
-    title: "E-Commerce Dashboard",
-    description: "A comprehensive dashboard for online store management with real-time analytics, inventory tracking, and order processing.",
-    tags: ["React", "Next.js", "Tailwind CSS", "Chart.js", "Firebase"],
-    image: "/api/placeholder/600/400",
+    title: "Blockchain Explorer",
+    description: "A transparent blockchain explorer for tracking carbon offset initiatives on Hedera Hashgraph. Built for CO2Offset, to provide transparency to everyone.",
+    tags: ["React", "API Integration", "Blockchain", "Chakra UI", "Docker", "Figma"],
+    images: ["/images/explorer1.png", "/images/explorer2.png", "/images/explorer3.png", "/images/explorer4.png"], 
+    Link: "explorer.co2offset.ai"
+  },
+  {
+    title: "BetWise",
+    description: "A betting platform that fetches games via external APIs, offering a zero-house-edge model with auto-adjusting odds based on supply and demand. Supports user logins and secure cookies.",
+    tags: ["React", "Typescript", "Node.js", "MongoDB", "REST API", "Cookies"],
+    images: ["/api/placeholder/600/400"],
+    codeLink: "https://github.com/kcharles220/BetWise"
+  },
+  {
+    title: "Point Of Sale Software",
+    description: "A software designed for small businesses. Provides an easy-to-use interface for managing products, sales, clients and more.",
+    tags: ["C#", "MongoDB"],
+    images: ["/api/placeholder/600/400"],
     demoLink: "#",
     codeLink: "#"
   },
   {
-    title: "Social Media App",
-    description: "A modern social networking platform with real-time messaging, news feed, and user profiles.",
-    tags: ["React", "Node.js", "MongoDB", "Socket.io", "AWS"],
-    image: "/api/placeholder/600/400",
-    demoLink: "#",
-    codeLink: "#"
-  },
-  {
-    title: "Weather Forecast App",
-    description: "A beautiful weather application with 7-day forecasts, location-based weather data, and interactive maps.",
-    tags: ["JavaScript", "API Integration", "CSS3", "Responsive Design"],
-    image: "/api/placeholder/600/400",
-    demoLink: "#",
-    codeLink: "#"
-  },
-  {
-    title: "Task Management System",
-    description: "A productivity tool for teams to manage projects, assign tasks, track progress, and meet deadlines.",
+    title: "GameZone",
+    description: "A website with some JavaScript-powered games, playable instantly in the browser—no downloads needed.",
     tags: ["TypeScript", "React", "Express", "PostgreSQL", "Docker"],
-    image: "/api/placeholder/600/400",
+    images: ["/api/placeholder/600/400"],
     demoLink: "#",
     codeLink: "#"
   }
@@ -45,17 +43,31 @@ interface Project {
   title: string;
   description: string;
   tags: string[];
-  image: string;
-  demoLink: string;
-  codeLink: string;
+  images: string[];  // Changed from single image to array
+  demoLink?: string;
+  codeLink?: string;
+  Link?: string;
 }
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
-  const [, setHovered] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovered, setHovered] = useState(false);
   const [cardRef, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  useEffect(() => {
+    if (!isHovered) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => 
+        prev === project.images.length - 1 ? 0 : prev + 1
+      );
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, project.images.length]);
 
   return (
     <motion.div
@@ -65,35 +77,78 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={() => {
+        setHovered(false);
+        setCurrentImageIndex(0); // Reset to first image when mouse leaves
+      }}
     >
       <div className="relative overflow-hidden aspect-video">
-        <Image 
-          src={project.image} 
-          alt={project.title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-          fill
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+        {project.images.map((image, imageIndex) => (
+          <div
+            key={image}
+            className="absolute inset-0 transition-opacity duration-1000"
+            style={{
+              opacity: currentImageIndex === imageIndex ? 1 : 0,
+            }}
+          >
+            <Image 
+              src={image} 
+              alt={`${project.title} - View ${imageIndex + 1}`}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102 rounded-md"
+              fill
+              loading="lazy"
+            />
+          </div>
+        ))}
+        
+        {/* Image navigation dots */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
+          {project.images.map((_, imageIndex) => (
+            <button
+              key={imageIndex}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                currentImageIndex === imageIndex 
+                  ? 'bg-white scale-125' 
+                  : 'bg-white/50 scale-100'
+              }`}
+              onClick={() => setCurrentImageIndex(imageIndex)}
+            />
+          ))}
+        </div>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-md">
           <div className="p-6 w-full">
             <div className="flex gap-3 mb-4">
-              <a 
-                href={project.demoLink} 
-                className="glass-button text-sm"
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                Live Demo
-              </a>
-              <a 
-                href={project.codeLink} 
-                className="glass-button text-sm"
-                target="_blank" 
-                rel="noopener noreferrer"
-              >
-                View Code
-              </a>
+              {project.demoLink && (
+                <a 
+                  href={project.demoLink} 
+                  className="glass-button text-sm"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Live Demo
+                </a>
+              )}
+              {project.codeLink && (
+                <a 
+                  href={project.codeLink} 
+                  className="glass-button text-sm"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  View Code
+                </a>
+              )}
+              {project.Link && (
+                <a 
+                  href={project.Link} 
+                  className="glass-button text-sm"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  Open
+                </a>
+              )}
             </div>
           </div>
         </div>

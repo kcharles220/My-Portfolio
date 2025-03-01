@@ -3,8 +3,10 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 
 export default function Hero() {
+  const {  } = useTheme()
   const [typedText, setTypedText] = useState('')
   const fullText = "Full-Stack Developer"
   const typingSpeed = 100
@@ -53,7 +55,7 @@ export default function Hero() {
             </motion.div>
             
             <motion.p 
-              className="text-gray-300 mb-8 max-w-lg"
+              className="text-[var(--secondary-text)] mb-8 max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}

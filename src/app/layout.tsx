@@ -1,9 +1,6 @@
 // File: src/app/layout.js
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from 'next-themes'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Carlos Pinto | Portfolio',
@@ -15,7 +12,7 @@ import { ReactNode } from 'react';
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

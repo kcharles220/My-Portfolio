@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 
@@ -14,14 +14,14 @@ interface Particle {
 }
 
 export default function Particles() {
-  const { resolvedTheme } = useTheme() // Add resolvedTheme
+  const { resolvedTheme } = useTheme()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
   const animationFrameRef = useRef<number | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
-  // Move constants inside useEffect or make them useRef/useMemo
   const particleConfig = useRef({
     PARTICLE_COUNT: 100,
     PARTICLE_SIZE_RANGE: { min: 1, max: 3 },
@@ -31,9 +31,16 @@ export default function Particles() {
     MOUSE_REPEL_STRENGTH: 0.5
   })
 
+  // Handle mounting state
   useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
     const canvas = canvasRef.current
-    if (!canvas || !resolvedTheme) return // Check for resolvedTheme
+    if (!canvas || !resolvedTheme) return
 
     // Use config from ref
     const { 
@@ -119,7 +126,7 @@ export default function Particles() {
           const distance = Math.sqrt(dx * dx + dy * dy)
 
           if (distance < CONNECTION_DISTANCE) {
-            const opacity = (1 - distance / CONNECTION_DISTANCE) * 0.2
+            const opacity = (1 - distance / CONNECTION_DISTANCE) * 0.5
             context.beginPath()
             context.moveTo(particle.x, particle.y)
             context.lineTo(otherParticle.x, otherParticle.y)
@@ -143,9 +150,10 @@ export default function Particles() {
         cancelAnimationFrame(animationFrameRef.current)
       }
     }
-  }, [resolvedTheme]) // Use resolvedTheme as dependency
+  }, [resolvedTheme, isMounted])
 
-  if (!resolvedTheme) return null // Don't render until theme is resolved
+  // Don't render anything until mounted on client
+  if (!isMounted || !resolvedTheme) return null
 
   return (
     <motion.canvas

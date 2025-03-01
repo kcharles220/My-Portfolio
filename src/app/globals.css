@@ -14,6 +14,8 @@
   --particle-color: 0, 0, 0;
   --grid-color: rgba(255, 255, 255, 0);
   transition: all 0.3s ease;
+  --secondary-text: rgb(97, 97, 97); /* gray-600 */
+
 }
 
 .dark {
@@ -25,6 +27,7 @@
 
   --background: #000000;
   --text: #ffffff;
+  --secondary-text: rgb(217, 226, 239);
 }
 
 @layer base {
@@ -51,7 +54,7 @@
   }
 
   .glass-button {
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(3px);
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 0.5rem;
@@ -195,13 +198,15 @@
     #ff0080,
     #ff8c00,
     #40e0d0,
-    #ff0080
+    #ff0080,
+    #ff8c00,
+    #40e0d0
   );
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: pulse-gradient 15s ease infinite;
+  animation: pulse-gradient 20s ease infinite;
 }
 
 .goo-container {

@@ -4,12 +4,14 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from './ThemeToggle';
+import { useTheme } from 'next-themes'
 
 interface HeaderProps {
   activeSection: string;
 }
 
 export default function Header({ activeSection }: HeaderProps) {
+  const { resolvedTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentText, setCurrentText] = useState('Welcome')
@@ -45,11 +47,11 @@ export default function Header({ activeSection }: HeaderProps) {
     }
     setMobileMenuOpen(false)
   }
-
+  const borderColor = resolvedTheme === 'dark' ? 'white' : 'black' 
   return (
     <motion.header
       className={`fixed transition-all transition-[border,background] duration-500 ${scrolled
-          ? 'md:mx-15 md:top-4 md:left-4 md:right-4 md:rounded-full top-0 left-0 right-0 backdrop-blur-md bg-white/5 border-b md:border border-white/10 py-2'
+          ? `md:mx-15 md:top-4 md:left-4 md:right-4 md:rounded-full top-0 left-0 right-0 backdrop-blur-sm bg-white/5 border-b md:border border-${borderColor}/10 py-2`
           : 'top-0 left-0 right-0 bg-transparent border-transparent py-4'
         } z-40`}
       initial={{ y: -100, opacity: 0 }}

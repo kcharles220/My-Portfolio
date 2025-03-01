@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useState, useEffect } from 'react'
 
 export default function Footer() {
   const [ref, inView] = useInView({
@@ -10,6 +11,19 @@ export default function Footer() {
   })
 
   const currentYear = new Date().getFullYear()
+  const [currentText, setCurrentText] = useState(`© ${currentYear} Carlos Pinto. All rights reserved.`)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText(prev => 
+        prev.includes('©') 
+          ? 'Built with Next.js, TypeScript, and Tailwind CSS.' 
+          : `© ${currentYear} Carlos Pinto. All rights reserved.`
+      )
+    }, 4000)
+
+    return () => clearInterval(interval)
+  }, [currentYear])
 
   return (
     <motion.footer 
@@ -103,15 +117,25 @@ export default function Footer() {
             </motion.div>
           </div>
 
-          {/* Bottom Bar */}
-          <motion.div
-            className="mt-8 pt-8 border-t border-white/10 text-center text-sm text-gray-400"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <p>© {currentYear} Carlos Pinto. All rights reserved.</p>
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              className="mt-8 pt-8 border-t border-white/10 text-center"
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <motion.p
+                key={currentText}
+                className="text-sm font-bold text-gray-400 "
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+              >
+                {currentText}
+              </motion.p>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </motion.footer>
