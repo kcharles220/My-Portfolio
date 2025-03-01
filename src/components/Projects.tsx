@@ -11,7 +11,7 @@ const projects = [
     title: "Blockchain Explorer",
     description: "A transparent blockchain explorer for tracking carbon offset initiatives on Hedera Hashgraph. Built for CO2Offset, to provide transparency to everyone.",
     tags: ["React", "API Integration", "Blockchain", "Chakra UI", "Docker", "Figma"],
-    images: ["/images/explorer1.png", "/images/explorer2.png", "/images/explorer3.png", "/images/explorer4.png"], 
+    images: ["/My-Portfolio/images/explorer1.png", "/My-Portfolio/images/explorer2.png", "/My-Portfolio/images/explorer3.png", "/My-Portfolio/images/explorer4.png"], 
     Link: "explorer.co2offset.ai"
   },
   {
