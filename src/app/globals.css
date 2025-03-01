@@ -14,7 +14,9 @@
   --particle-color: 0, 0, 0;
   --grid-color: rgba(255, 255, 255, 0);
   transition: all 0.3s ease;
-  --secondary-text: rgb(97, 97, 97); /* gray-600 */
+  --secondary-text: rgb(97, 97, 97); 
+  --title-text: #1a7ecb;
+  --some-border-color: rgb(156, 163, 175);
 
 }
 
@@ -24,10 +26,12 @@
   --background-end-rgb: 10, 10, 20;
   --particle-color: 255, 255, 255;
   --grid-color: rgba(255, 255, 255, 0.1);
-
   --background: #000000;
   --text: #ffffff;
   --secondary-text: rgb(217, 226, 239);
+  --title-text: #22d3ee; 
+  --some-border-color: rgb(107, 114, 128);
+
 }
 
 @layer base {
@@ -56,7 +60,7 @@
   .glass-button {
     backdrop-filter: blur(3px);
     background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--some-border-color);
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     transition: all 300ms;
@@ -79,6 +83,7 @@
     line-height: 2.25rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
+    color: var(--title-text);
   }
   
   @media (min-width: 768px) {
@@ -158,15 +163,12 @@
 }
 
 .glow {
-  box-shadow: 0 0 10px rgba(138, 43, 226, 0.5), 
-              0 0 5px rgb(0, 255, 255);
-  transition: all 0.3s ease;
+  box-shadow:  0 0 6px rgba(0, 255, 255, 0.8), 0 0 4px rgb(137, 43, 226);
+  transition: box-shadow 0.3s ease;
 }
 
 .glow:hover {
-  box-shadow: 0 0 15px rgba(138, 43, 226, 0.7),
-              0 0 8px rgba(0, 255, 255, 0.7);
-  animation: pulse-glow 2s ease-in-out infinite;
+  box-shadow: 0 0 8px rgb(0, 255, 255), 0 0 6px rgb(137, 43, 226);
 }
 
 .grid-background {
@@ -180,16 +182,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgb(0, 0, 0);
+  background: rgb(var(--background));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(255, 255, 255);
+  background: var(--text);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.784);
+  background: var(--secondary-text);
 }
 
 .animate-pulse-gradient {

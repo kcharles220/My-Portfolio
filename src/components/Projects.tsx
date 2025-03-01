@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 
 const projects = [
   {
@@ -50,6 +51,7 @@ interface Project {
 }
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
+  const { resolvedTheme } = useTheme()
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setHovered] = useState(false);
   const [cardRef, inView] = useInView({
@@ -116,7 +118,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           ))}
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-md">
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)]/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end rounded-md">
           <div className="p-6 w-full">
             <div className="flex gap-3 mb-4">
               {project.demoLink && (
@@ -155,12 +157,14 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       </div>
       <div className="p-6">
         <h3 className="text-xl font-bold mb-2 gradient-text">{project.title}</h3>
-        <p className="text-gray-300 mb-4">{project.description}</p>
+        <p className="text-[var(--secondary-text)] mb-4">{project.description}</p>
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag: string) => (
             <span 
               key={tag} 
-              className="text-xs px-2 py-1 rounded-full glass-panel text-cyan-300"
+              className={`text-xs px-2 py-1 rounded-full glass-panel ${
+                resolvedTheme !== 'dark' ? 'text-cyan-600' : 'text-cyan-300'
+              }`}
             >
               {tag}
             </span>
@@ -181,13 +185,13 @@ export default function Projects() {
     <section id="projects" ref={sectionRef} className="py-20 relative grid-background">
       <div className="container mx-auto px-4">
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
           <h2 className="section-title gradient-text">My Projects</h2>
-          <p className="text-gray-300 max-w-2xl mx-auto">
+          <p className="text-[var(--secondary-text)] max-w-2xl mx-auto">
             Here are some of the projects I&apos;ve worked on. Each one represents different skills and technologies I&apos;ve mastered.
           </p>
         </motion.div>

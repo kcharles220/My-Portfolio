@@ -59,7 +59,7 @@ const SkillCard = ({ icon, name, description, delay }: SkillCardProps) => {
       
       <div className="text-4xl mb-4 text-cyan-400">{icon}</div>
       <h3 className="text-xl font-bold mb-2">{name}</h3>
-      <p className="text-gray-300">{description}</p>
+      <p className="text-[var(--secondary-text)]">{description}</p>
     </motion.div>
   )
 }
@@ -78,7 +78,7 @@ export default function Skills() {
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.h2 
-          className="section-title text-center gradient-text mb-16"
+          className="section-title text-center gradient-text mb-14"
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
@@ -93,8 +93,8 @@ export default function Skills() {
                 key={tab}
                 className={`px-6 w-50 py-2 rounded-lg transition-all duration-300  cursor-pointer ${
                   activeTab === tab 
-                    ? 'bg-gradient-to-r from-purple-500 to-cyan-400 text-white font-medium' 
-                    : 'text-gray-300 hover:text-white'
+                    ? 'bg-gradient-to-r from-purple-500 to-cyan-400 text-[var(--text)] font-medium' 
+                    : 'text-[var(--secondary-text)] hover:text-[var(--text)] '
                 }`}
                 onClick={() => setActiveTab(tab)}
               >

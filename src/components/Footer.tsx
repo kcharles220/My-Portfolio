@@ -50,7 +50,7 @@ export default function Footer() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <h3 className="text-2xl font-bold gradient-text mb-4">My Portfolio</h3>
-              <p className="text-gray-300">
+              <p className="text-[var(--secondary-text)]">
                 Thank you for visiting my portfolio.<br/>
                 I look forward to collaborate and create something extraordinary.
               </p>
@@ -69,7 +69,7 @@ export default function Footer() {
                   <a
                     key={item}
                     href={`#${item.toLowerCase()}`}
-                    className="text-gray-400 hover:text-white hover:translate-x-1 transition-all duration-300"
+                    className="text-[var(--secondary-text)] hover:text-[var(--text)] hover:translate-x-1 transition-all duration-300"
                   >
                     {item}
                   </a>
