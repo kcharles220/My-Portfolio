@@ -5,13 +5,16 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import ThemeToggle from './ThemeToggle';
 import { useTheme } from 'next-themes'
+import LanguageSwitcher from './LanguageSwitcher';
+import { useTranslations } from 'next-intl';
 
 interface HeaderProps {
   activeSection: string;
 }
 
 export default function Header({ activeSection }: HeaderProps) {
-  const {  } = useTheme()
+  const t = useTranslations('header');
+  const { } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentText, setCurrentText] = useState('Welcome')
@@ -47,11 +50,21 @@ export default function Header({ activeSection }: HeaderProps) {
     }
     setMobileMenuOpen(false)
   }
+
+  // Array of navigation items with their section IDs
+  const navItems = [
+    { id: 'home', label: t('home') },
+    { id: 'about', label: t('about') },
+    { id: 'skills', label: t('skills') },
+    { id: 'projects', label: t('projects') },
+    { id: 'contact', label: t('contact') }
+  ];
+
   return (
     <motion.header
       className={`fixed transition-all transition-[border,background] duration-500 ${scrolled
-          ? `md:mx-15 md:top-4 md:left-4 md:right-4 md:rounded-full top-0 left-0 right-0 backdrop-blur-sm bg-white/5 border-b md:border border-[var(--some-border-color)]/20 py-2`
-          : 'top-0 left-0 right-0 bg-transparent border-transparent py-4'
+        ? `md:mx-15 md:top-4 md:left-4 md:right-4 md:rounded-full top-0 left-0 right-0 backdrop-blur-sm bg-white/5 md:border border-[var(--some-border-color)]/20 py-2`
+        : 'top-0 left-0 right-0 bg-transparent border-transparent py-4'
         } z-40`}
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -76,9 +89,9 @@ export default function Header({ activeSection }: HeaderProps) {
         {/* Desktop Navigation */}
         <nav className={`md:block transition-all duration-500 ${scrolled ? 'w-full' : 'hidden'}`}>
           <ul className={`flex space-x-6 transition-all duration-500 ${scrolled ? 'justify-center' : 'justify-start'}`}>
-            {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+            {navItems.map((item) => (
               <motion.li
-                key={item}
+                key={item.id}
                 layout
                 transition={{
                   duration: 0.35,
@@ -86,33 +99,25 @@ export default function Header({ activeSection }: HeaderProps) {
                 }}
               >
                 <button
-                  onClick={() => scrollToSection({ sectionId: item })}
-                  className={`cursor-pointer nav-link capitalize ${activeSection === item ? 'after:w-full' : ''
-                    }`}
+                  onClick={() => scrollToSection({ sectionId: item.id })} 
+                  className={`cursor-pointer nav-link capitalize ${activeSection === item.id ? 'after:w-full' : ''}`}
                 >
-                  {item}
+                  {item.label}
                 </button>
-
               </motion.li>
+            ))}
 
-
-            )
-            )
-            }
             <motion.li
               layout
               transition={{
                 duration: 0.35,
                 ease: "easeInOut"
               }}
+              className="flex gap-2"
             >
-              
-                <ThemeToggle />
-
+              <ThemeToggle />
+              <LanguageSwitcher />
             </motion.li>
-
-
-
           </ul>
         </nav>
 
@@ -145,14 +150,13 @@ export default function Header({ activeSection }: HeaderProps) {
         transition={{ duration: 0.3 }}
       >
         <ul className="py-4 px-4 space-y-3">
-          {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
-            <li key={item}>
+          {navItems.map((item) => (
+            <li key={item.id}>
               <button
-                onClick={() => scrollToSection({ sectionId: item })}
-                className={`w-full text-left px-4 py-2 block capitalize ${activeSection === item ? 'gradient-text font-bold' : ''
-                  }`}
+                onClick={() => scrollToSection({ sectionId: item.id })}
+                className={`w-full text-left px-4 py-2 block capitalize ${activeSection === item.id ? 'gradient-text font-bold' : ''}`}
               >
-                {item}
+                {item.label}
               </button>
             </li>
           ))}

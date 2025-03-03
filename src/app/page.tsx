@@ -17,6 +17,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState('home')
   const [isLoading, setIsLoading] = useState(true)
   const [assetsLoaded, setAssetsLoaded] = useState(false)
+  const [loadingProgress, setLoadingProgress] = useState(0)
 
   useEffect(() => {
     // Create an array of image URLs to preload
@@ -31,22 +32,32 @@ export default function Home() {
 
     // Function to preload images
     const preloadImages = async () => {
+      let loadedCount = 0;
+      const totalImages = imagesToPreload.length;
+      
       const imagePromises = imagesToPreload.map(src => {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
           const img = new Image()
           img.src = src
-          img.onload = resolve
+          img.onload = () => {
+            loadedCount++;
+            setLoadingProgress(Math.round((loadedCount / totalImages) * 100));
+            resolve();
+          }
           img.onerror = reject
         })
       })
-
+  
       try {
         await Promise.all(imagePromises)
         setAssetsLoaded(true)
       } catch (error) {
         console.error('Failed to load some images:', error)
-        // Still set loaded to true to prevent infinite loading
-        setAssetsLoaded(true)
+        setLoadingProgress(100);
+        const timeoutId = setTimeout(() => {
+          setAssetsLoaded(true)
+        }, 200);
+        return () => clearTimeout(timeoutId);
       }
     }
 
@@ -93,11 +104,30 @@ export default function Home() {
       <AnimatePresence>
         {isLoading ? (
           <motion.div 
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black"
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
             <GooLoader />
+            
+            {/* Progress Bar */}
+            <div className="mt-8 w-64 relative">
+              <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                <motion.div 
+                  className="h-full bg-gradient-to-r from-[#a855f7] via-[#22d3ee] to-[#ec4899]"
+                  initial={{ width: "0%" }}
+                  animate={{ width: `${loadingProgress}%` }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    boxShadow: '0 0 8px rgb(0, 255, 255), 0 0 6px rgb(137, 43, 226)'
+                  }}
+                />
+              </div>
+              <div className="text-white text-sm mt-2 text-center font-mono">
+                {loadingProgress}%
+              </div>
+            </div>
+            
             {/* Hidden SVG filter */}
             <svg style={{ position: 'absolute', width: 0, height: 0 }}>
               <defs>

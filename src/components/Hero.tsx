@@ -1,25 +1,61 @@
 // File: src/components/Hero.js
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
+import { useTranslations } from 'next-intl';
 
 export default function Hero() {
+  const t = useTranslations('hero');
   const { resolvedTheme } = useTheme()
+  
   const [typedText, setTypedText] = useState('')
-  const fullText = "Full-Stack Developer"
-  const typingSpeed = 100
+  const [isErasing, setIsErasing] = useState(false)
+  const previousTextRef = useRef('')
+  const fullText = t("subtitle")
+  const typingSpeed = 85
+  const erasingSpeed = 45  
   
   useEffect(() => {
-    if (typedText.length < fullText.length) {
-      const timeout = setTimeout(() => {
-        setTypedText(fullText.slice(0, typedText.length + 1))
-      }, typingSpeed)
-      
-      return () => clearTimeout(timeout)
+    const currentFullText = fullText;
+    const hasTypedText = typedText.length > 0;
+    const isNewTextDifferent = previousTextRef.current !== currentFullText;
+    
+    // Start erasing when language changes and we have text already
+    if (hasTypedText && isNewTextDifferent) {
+      previousTextRef.current = currentFullText;
+      setIsErasing(true);
+    } 
+    // Initialize reference when empty
+    else if (!hasTypedText) {
+      previousTextRef.current = currentFullText;
     }
-  }, [typedText])
+    // No need to do anything if text is same or we're already in correct state
+  }, [fullText, typedText]);
+  
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    
+    if (isErasing) {
+      if (typedText.length > 0) {
+        timeout = setTimeout(() => {
+          setTypedText(prev => prev.slice(0, -1));
+        }, erasingSpeed);
+      } else {
+        setIsErasing(false);
+      }
+    } 
+    else {
+      if (typedText.length < fullText.length) {
+        timeout = setTimeout(() => {
+          setTypedText(fullText.slice(0, typedText.length + 1));
+        }, typingSpeed);
+      }
+    }
+    
+    return () => clearTimeout(timeout);
+  }, [typedText, isErasing, fullText, typingSpeed, erasingSpeed]);
 
   return (
     <section id="home" className="relative min-h-screen grid-background flex items-center">
@@ -32,7 +68,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              Hello, I&apos;m
+              {t('hello')}
             </motion.h2>
             
             <motion.h1 
@@ -51,7 +87,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <span className="mr-2">{typedText}</span>
-              <span className="h-6 w-0.5 bg-cyan-400 animate-pulse"></span>
+              <span className={`h-6 w-0.5 bg-cyan-400 ${isErasing ? 'animate-pulse-fast' : 'animate-pulse'}`}></span>
             </motion.div>
             
             <motion.p 
@@ -60,8 +96,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              Building beautiful, responsive, and user-friendly web applications with modern technologies. Passionate about creating seamless user experiences.
-            </motion.p>
+              {t('description')} 
+              </motion.p>
             
             <motion.div 
               className="flex flex-wrap gap-4"
@@ -80,7 +116,7 @@ export default function Hero() {
                   }
                 }}
               >
-                View My Work
+                {t('view')}
               </a>
               <a 
                 href="#contact" 
@@ -93,7 +129,7 @@ export default function Hero() {
                   }
                 }}
               >
-                Contact Me
+                {t('contact')}
               </a>
             </motion.div>
             

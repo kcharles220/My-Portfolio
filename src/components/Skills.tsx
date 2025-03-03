@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 
 interface SkillBarProps {
   name: string;
@@ -71,6 +72,14 @@ export default function Skills() {
   })
   
   const [activeTab, setActiveTab] = useState('technical')
+  const t = useTranslations('skills');
+  
+  // Map tab IDs to translation keys
+  const tabNames = {
+    'technical': '1',
+    'soft': '2',
+    'tools': '3'
+  };
 
   return (
     <section id="skills" ref={sectionRef} className="py-20 relative">
@@ -83,22 +92,22 @@ export default function Skills() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          My Skills
+          {t('title')}
         </motion.h2>
         
         <div className="flex justify-center mb-12">
           <div className="inline-flex glass-panel p-1">
-            {['technical', 'soft', 'tools'].map((tab) => (
+            {Object.entries(tabNames).map(([tab, translationKey]) => (
               <button
                 key={tab}
-                className={`px-6 w-50 py-2 rounded-lg transition-all duration-300  cursor-pointer ${
+                className={`px-6 w-50 py-2 rounded-lg transition-all duration-300 cursor-pointer ${
                   activeTab === tab 
                     ? 'bg-gradient-to-r from-purple-500 to-cyan-400 text-[var(--text)] font-medium' 
-                    : 'text-[var(--secondary-text)] hover:text-[var(--text)] '
+                    : 'text-[var(--secondary-text)] hover:text-[var(--text)]'
                 }`}
                 onClick={() => setActiveTab(tab)}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {t(translationKey)}
               </button>
             ))}
           </div>
@@ -113,21 +122,21 @@ export default function Skills() {
               transition={{ duration: 0.5 }}
             >
               <div className="glass-panel p-6">
-                <h3 className="text-xl font-bold mb-6">Frontend Development</h3>
-                <SkillBar name="JavaScript / TypeScript" percentage={90} delay={0.1} />
-                <SkillBar name="React / Next.js" percentage={85} delay={0.2} />
-                <SkillBar name="HTML5 / CSS3" percentage={95} delay={0.3} />
-                <SkillBar name="Tailwind CSS" percentage={90} delay={0.4} />
-                <SkillBar name="Framer Motion" percentage={75} delay={0.5} />
+                <h3 className="text-xl font-bold mb-6">{t('Frontend')}</h3>
+                <SkillBar name={t('111')} percentage={90} delay={0.1} />
+                <SkillBar name={t('112')} percentage={85} delay={0.2} />
+                <SkillBar name={t('113')} percentage={95} delay={0.3} />
+                <SkillBar name={t('114')} percentage={90} delay={0.4} />
+                <SkillBar name={t('115')} percentage={75} delay={0.5} />
               </div>
               
               <div className="glass-panel p-6">
-                <h3 className="text-xl font-bold mb-6">Backend Development</h3>
-                <SkillBar name="Node.js / Express" percentage={80} delay={0.1} />
-                <SkillBar name="Python / Django" percentage={75} delay={0.2} />
-                <SkillBar name="Database Design" percentage={85} delay={0.3} />
-                <SkillBar name="API Development" percentage={90} delay={0.4} />
-                <SkillBar name="Authentication / Security" percentage={70} delay={0.5} />
+                <h3 className="text-xl font-bold mb-6">{t('Backend')}</h3>
+                <SkillBar name={t('121')} percentage={80} delay={0.1} />
+                <SkillBar name={t('122')} percentage={75} delay={0.2} />
+                <SkillBar name={t('123')} percentage={85} delay={0.3} />
+                <SkillBar name={t('124')} percentage={90} delay={0.4} />
+                <SkillBar name={t('125')} percentage={70} delay={0.5} />
               </div>
             </motion.div>
           )}
@@ -141,38 +150,38 @@ export default function Skills() {
             >
               <SkillCard 
                 icon="🧠"
-                name="Problem Solving"
-                description="Analytical approach to breaking down complex problems and finding elegant solutions."
+                name={t('211')}
+                description={t('212')}
                 delay={0.1}
               />
               <SkillCard 
                 icon="👥"
-                name="Teamwork"
-                description="Effective collaboration with cross-functional teams to achieve project goals."
+                name={t('221')}
+                description={t('222')}
                 delay={0.2}
               />
               <SkillCard 
-                icon="🔄"
-                name="Adaptability"
-                description="Quick to learn and adapt to new technologies and changing requirements."
+                icon="💬"
+                name={t('231')}
+                description={t('232')}
                 delay={0.3}
               />
               <SkillCard 
-                icon="📚"
-                name="Continuous Learning"
-                description="Passion for staying updated with the latest industry trends and technologies."
+                icon="🔄"
+                name={t('241')}
+                description={t('242')}
                 delay={0.4}
               />
               <SkillCard 
-                icon="🎯"
-                name="Attention to Detail"
-                description="Meticulous focus on code quality, performance, and user experience."
+                icon="⏱️"
+                name={t('251')}
+                description={t('252')}
                 delay={0.5}
               />
               <SkillCard 
-                icon="⏱️"
-                name="Time Management"
-                description="Efficient prioritization of tasks to meet deadlines while maintaining quality."
+                icon="👑"
+                name={t('261')}
+                description={t('262')}
                 delay={0.6}
               />
             </motion.div>
@@ -202,7 +211,7 @@ export default function Skills() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    transition={{ duration: 0.1, delay: index * 0.1 }}
                   >
                     <div className="text-3xl mb-2">{tool.icon}</div>
                     <div>{tool.name}</div>

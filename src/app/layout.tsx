@@ -1,6 +1,7 @@
 // File: src/app/layout.js
 import './globals.css'
 import { ThemeProvider } from 'next-themes'
+import { LanguageProvider } from '../components/LanguageProvider';
 
 export const metadata = {
   title: 'Carlos Pinto | Portfolio',
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           enableSystem={true}
           disableTransitionOnChange
         >
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 
 export default function Footer() {
   const [ref, inView] = useInView({
@@ -10,20 +11,21 @@ export default function Footer() {
     threshold: 0.1,
   })
 
+  const t = useTranslations('footer');
   const currentYear = new Date().getFullYear()
-  const [currentText, setCurrentText] = useState(`© ${currentYear} Carlos Pinto. All rights reserved.`)
+  const [currentText, setCurrentText] = useState(`© ${currentYear} Carlos Pinto. ${t('rights')}`)
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentText(prev => 
         prev.includes('©') 
-          ? 'Built with Next.js, TypeScript, and Tailwind CSS.' 
-          : `© ${currentYear} Carlos Pinto. All rights reserved.`
+          ? t('builtWith')
+          : `© ${currentYear} Carlos Pinto. ${t('rights')}`
       )
     }, 4000)
 
     return () => clearInterval(interval)
-  }, [currentYear])
+  }, [currentYear, t])
 
   return (
     <motion.footer 
@@ -33,57 +35,57 @@ export default function Footer() {
       animate={inView ? { opacity: 1 } : {}}
       transition={{ duration: 0.5 }}
     >
-      {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-transparent via-purple-900/10 to-transparent"></div>
 
       <div className="container mx-auto px-4">
         <div className="glass-panel p-8 relative overflow-hidden">
-          {/* Decorative glowing orbs */}
           <div className="absolute -left-20 -top-20 w-40 h-40 bg-purple-500 rounded-full opacity-20 blur-3xl animate-pulse"></div>
           <div className="absolute -right-20 -bottom-20 w-40 h-40 bg-cyan-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Brand Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h3 className="text-2xl font-bold gradient-text mb-4">My Portfolio</h3>
+              <h3 className="text-2xl font-bold gradient-text mb-4">{t('portfolio')}</h3>
               <p className="text-[var(--secondary-text)]">
-                Thank you for visiting my portfolio.<br/>
-                I look forward to collaborate and create something extraordinary.
+                {t('thankYou')}
               </p>
             </motion.div>
 
-            {/* Quick Links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="space-y-4"
             >
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <h4 className="text-lg font-semibold mb-4">{t('quickLinks')}</h4>
               <nav className="grid grid-cols-2 gap-2">
-                {['Home', 'About', 'Skills', 'Projects', 'Contact'].map((item) => (
+                {[
+                  { name: t('home'), link: 'home' },
+                  { name: t('about'), link: 'about' },
+                  { name: t('skills'), link: 'skills' },
+                  { name: t('projects'), link: 'projects' },
+                  { name: t('contact'), link: 'contact' }
+                ].map((item) => (
                   <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
+                    key={item.link}
+                    href={`#${item.link}`}
                     className="text-[var(--secondary-text)] hover:text-[var(--text)] hover:translate-x-1 transition-all duration-300"
                   >
-                    {item}
+                    {item.name}
                   </a>
                 ))}
               </nav>
             </motion.div>
 
-            {/* Social Links */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <h4 className="text-lg font-semibold mb-4">Connect</h4>
+              <h4 className="text-lg font-semibold mb-4">{t('connect')}</h4>
               <div className="flex space-x-4">
                 <a
                   href="https://github.com/kcharles220"

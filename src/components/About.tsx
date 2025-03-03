@@ -5,8 +5,10 @@ import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
+import { useTranslations } from 'next-intl'
 
 export default function About() {
+  const t = useTranslations('about');
   const {resolvedTheme} = useTheme()
   const [sectionRef, inView] = useInView({
     triggerOnce: true,
@@ -22,7 +24,7 @@ export default function About() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
         >
-          About Me
+          {t("title")}
         </motion.h2>
         
         <div className="flex flex-col md:flex-row gap-12 items-center">
@@ -36,13 +38,10 @@ export default function About() {
               <div className="absolute -right-10 -top-10 w-24 h-24 bg-purple-500 opacity-30 rounded-full blur-xl group-hover:w-32 group-hover:h-32 transition-all duration-700"></div>
               <div className="absolute -left-10 -bottom-10 w-24 h-24 bg-cyan-400 opacity-30 rounded-full blur-xl group-hover:w-32 group-hover:h-32 transition-all duration-700"></div>
               
-              <h3 className="text-xl font-bold mb-4">Who I Am</h3>
+              <h3 className="text-xl font-bold mb-4">{t("card1title")}</h3>
               <p className="text-[var(--secondary-text)] mb-4">
-                I&apos;m a computer science student and aspiring developer with a passion for creating elegant, efficient solutions to complex problems. My journey in technology began when I was 14, tinkering with HTML and CSS to build simple websites.
-              </p>
-              <p className="text-[var(--secondary-text)]">
-                Today, I specialize in full-stack development with particular interest in web applications, user experience design, and modern JavaScript frameworks. I love learning new technologies and applying them to create innovative projects.
-              </p>
+              {t("description")}
+               </p>
             </div>
           </motion.div>
           
@@ -52,27 +51,24 @@ export default function About() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <div className="glass-panel p-6 relative">
-              <h3 className="text-xl font-bold mb-6">My Journey</h3>
+            <div className="glass-panel p-6 relative ">
+              <h3 className="text-xl font-bold mb-6">{t("card2title")}</h3>
               
               {/* Timeline container using grid */}
               <div className="grid grid-cols-[120px_40px_1fr] ">
                 {[
                   {
-                    year: "2021 - Present",
-                    title: "Computer Science Student",
-                    description: "Pursuing a degree in Computer Science with focus on software engineering and web development."
+                    year: "2024",
+                    title: t("title2"),
+                    description: t("description2")
                   },
+                  
                   {
-                    year: "2020 - 2021",
-                    title: "Freelance Web Developer",
-                    description: "Built websites and web applications for small businesses and startups."
-                  },
-                  {
-                    year: "2019 - 2020",
-                    title: "Summer Internship",
-                    description: "Worked as a junior developer intern, gaining hands-on experience with real-world projects."
+                    year: "2021 - 2025",
+                    title: t("title1"),
+                    description: t("description1")
                   }
+                  
                 ].map((item, index, array) => (
                   <React.Fragment key={index}>
                     {/* Year column */}
