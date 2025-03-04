@@ -9,7 +9,7 @@ import { useTheme } from 'next-themes'
 import { useTranslations } from 'next-intl'
 
 type Translator = (key: string) => string;
-const ProjectCard = ({ project, index, t }: { project: Project; index: number; t: Translator}) => {
+const ProjectCard = ({ project, index, t }: { project: Project; index: number; t: Translator }) => {
   const { resolvedTheme } = useTheme()
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setHovered] = useState(false);
@@ -20,9 +20,9 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
 
   useEffect(() => {
     if (!isHovered) return;
-    
+
     const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => 
+      setCurrentImageIndex((prev) =>
         prev === project.images.length - 1 ? 0 : prev + 1
       );
     }, 2000);
@@ -52,8 +52,8 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
               opacity: currentImageIndex === imageIndex ? 1 : 0,
             }}
           >
-            <Image 
-              src={image} 
+            <Image
+              src={image}
               alt={`${project.title} - View ${imageIndex + 1}`}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102 rounded-md"
               fill
@@ -61,17 +61,16 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
             />
           </div>
         ))}
-        
+
         {/* Image navigation dots */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-10">
           {project.images.map((_, imageIndex) => (
             <button
               key={imageIndex}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentImageIndex === imageIndex 
-                  ? 'bg-white scale-125' 
-                  : 'bg-white/50 scale-100'
-              }`}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${currentImageIndex === imageIndex
+                ? 'bg-white scale-125'
+                : 'bg-white/50 scale-100'
+                }`}
               onClick={() => setCurrentImageIndex(imageIndex)}
             />
           ))}
@@ -81,30 +80,30 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
           <div className="p-6 w-full">
             <div className="flex gap-3 mb-4">
               {project.demoLink && (
-                <a 
-                  href={project.demoLink} 
+                <a
+                  href={project.demoLink}
                   className="glass-button text-sm"
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   {t('liveDemo')}
                 </a>
               )}
               {project.codeLink && (
-                <a 
-                  href={project.codeLink} 
+                <a
+                  href={project.codeLink}
                   className="glass-button text-sm"
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   {t('viewCode')}
                 </a>
               )}
               {project.Link && (
-                <a 
-                  href={project.Link} 
+                <a
+                  href={project.Link}
                   className="glass-button text-sm"
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   {t('open')}
@@ -119,11 +118,10 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
         <p className="text-[var(--secondary-text)] mb-4">{t(project.descriptionKey)}</p>
         <div className="mt-auto flex flex-wrap gap-2">
           {project.tags.map((tag: string) => (
-            <span 
-              key={tag} 
-              className={`text-xs px-2 py-1 rounded-full glass-panel ${
-                resolvedTheme !== 'dark' ? 'text-cyan-600' : 'text-cyan-300'
-              }`}
+            <span
+              key={tag}
+              className={`text-xs px-2 py-1 rounded-full glass-panel ${resolvedTheme !== 'dark' ? 'text-cyan-600' : 'text-cyan-300'
+                }`}
             >
               {tag}
             </span>
@@ -156,31 +154,35 @@ export default function Projects() {
       title: "Blockchain Explorer",
       descriptionKey: "explorer",
       tags: ["React", "API Integration", "Blockchain", "Chakra UI", "Docker", "Figma"],
-      images: ["/My-Portfolio/images/explorer1.png", "/My-Portfolio/images/explorer2.png", "/My-Portfolio/images/explorer3.png", "/My-Portfolio/images/explorer4.png"], 
+      images: ["/My-Portfolio/images/explorer1.png", "/My-Portfolio/images/explorer2.png", "/My-Portfolio/images/explorer3.png", "/My-Portfolio/images/explorer4.png"],
       Link: "https://explorer.co2offset.ai"
     },
     {
       title: "BetWise",
       descriptionKey: "betwise",
       tags: ["React", "Typescript", "Node.js", "MongoDB", "REST API", "Cookies"],
-      images: ["/api/placeholder/600/400"],
+      images: ['/My-Portfolio/images/betwise1.png',
+        '/My-Portfolio/images/betwise2.png',
+        '/My-Portfolio/images/betwise3.png',],
       codeLink: "https://github.com/kcharles220/BetWise"
     },
     {
       title: "Point Of Sale Software",
       descriptionKey: "pos",
       tags: ["C#", "MongoDB"],
-      images: ["/api/placeholder/600/400"],
-      demoLink: "#",
-      codeLink: "#"
+      images: ['/My-Portfolio/images/pos1.png',
+      '/My-Portfolio/images/pos2.png'],
+      
+      
     },
     {
       title: "GameZone",
       descriptionKey: "gamezone",
       tags: ["TypeScript", "React", "Express", "PostgreSQL", "Docker"],
-      images: ["/api/placeholder/600/400"],
-      demoLink: "#",
-      codeLink: "#"
+      images: ['/My-Portfolio/images/gamezone1.png',
+        '/My-Portfolio/images/gamezone2.png',
+        '/My-Portfolio/images/gamezone3.png',],
+      
     }
   ];
 
@@ -211,9 +213,9 @@ export default function Projects() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <a 
-            href="https://github.com/kcharles220" 
-            target="_blank" 
+          <a
+            href="https://github.com/kcharles220"
+            target="_blank"
             rel="noopener noreferrer"
             className="glass-button glow"
           >

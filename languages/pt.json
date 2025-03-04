@@ -16,7 +16,9 @@
   "about": {
     "title": "Sobre Mim",
     "card1title": "Quem Sou Eu?",
-    "description": "Sou isto e aquilo",
+    "descriptionp1": "Sou um desenvolvedor motivado que prospera sob pressão e se compromete totalmente com os projetos pelos quais é apaixonado. Priorizo a qualidade—prefiro trabalhar a noite inteira a entregar algo medíocre.",
+    "descriptionp2": "Embora as minhas principais competências estejam no desenvolvimento full-stack e backend, destaco-me pela capacidade de aprender rapidamente e adaptar-me a diferentes tecnologias. Comecei a programar com command blocks do Minecraft, o que despertou uma paixão que me levou a aprofundar os meus conhecimentos na área.",
+    "descriptionp3": "Valorizo a autossuficiência e soluções eficientes, acreditando que a melhor abordagem muitas vezes é mergulhar no problema e adaptar-se ao longo do caminho. Para além da programação, gosto de futebol e videojogos, mas a minha grande ambição é desenvolver projetos de impacto e, eventualmente, lançar a minha própria empresa.",
     "card2title": "O Meu Percurso",
     "title1": "Licenciatura em Ciência da Computação",
     "description1": "Concluída no ISEC, em Coimbra, Portugal, com uma base sólida em programação, desenvolvimento de software, estruturas de dados e algoritmos, preparando os alunos para desafios reais.",

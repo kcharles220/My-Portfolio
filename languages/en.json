@@ -17,7 +17,9 @@
   "about": {
     "title": "About Me",
     "card1title": "Who Am I?",
-    "description": "I am this and that",
+    "descriptionp1": "I'm a driven developer who thrives under pressure and fully commits to projects I'm passionate about. Quality is non-negotiable—I’d rather work through the night than deliver something subpar.",
+    "descriptionp2": "While my core strengths lie in full-stack and backend development, I excel at quickly learning and adapting to new technologies. My coding journey began with Minecraft command blocks, sparking a passion that led me to explore programming in depth.",
+    "descriptionp3": "I value self-reliance and efficient solutions, believing the best approach is often to dive in and adapt along the way. Beyond coding, I enjoy football and gaming, but my ultimate ambition is to build impactful projects and eventually launch my own company.",
     "card2title": "My Journey",
     "title1": "Computer Science Degree",
     "description1": "Completed at ISEC in Coimbra, Portugal, providing a strong foundation in programming, software development, data structures, and algorithms, equipping students for success in the tech industry.",

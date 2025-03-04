@@ -40,7 +40,15 @@ export default function About() {
               
               <h3 className="text-xl font-bold mb-4">{t("card1title")}</h3>
               <p className="text-[var(--secondary-text)] mb-4">
-              {t("description")}
+              {t("descriptionp1")}
+              <br />
+              <br />
+
+              {t("descriptionp2")}
+              <br />
+              <br />
+
+              {t("descriptionp3")}
                </p>
             </div>
           </motion.div>

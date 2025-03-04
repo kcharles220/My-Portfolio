@@ -22,12 +22,18 @@ export default function Home() {
   useEffect(() => {
     // Create an array of image URLs to preload
     const imagesToPreload = [
-      // Add your critical images here
       '/My-Portfolio/images/explorer1.png',
       '/My-Portfolio/images/explorer2.png',
       '/My-Portfolio/images/explorer3.png',
       '/My-Portfolio/images/explorer4.png',
-      // Add more image paths as needed
+      '/My-Portfolio/images/betwise1.png',
+      '/My-Portfolio/images/betwise2.png',
+      '/My-Portfolio/images/betwise3.png',
+      '/My-Portfolio/images/gamezone1.png',
+      '/My-Portfolio/images/gamezone2.png',
+      '/My-Portfolio/images/gamezone3.png',
+      '/My-Portfolio/images/pos1.png',
+      '/My-Portfolio/images/pos2.png',
     ]
 
     // Function to preload images
