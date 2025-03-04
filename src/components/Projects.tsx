@@ -158,9 +158,9 @@ export default function Projects() {
       Link: "https://explorer.co2offset.ai"
     },
     {
-      title: "BetWise",
+      title: "WiseBet",
       descriptionKey: "betwise",
-      tags: ["React", "Typescript", "Node.js", "MongoDB", "REST API", "Cookies"],
+      tags: ["Next.js", "Typescript", "Node.js", "MongoDB", "REST API", "Cookies", "Authentication"],
       images: ['/My-Portfolio/images/betwise1.png',
         '/My-Portfolio/images/betwise2.png',
         '/My-Portfolio/images/betwise3.png',],
@@ -169,7 +169,7 @@ export default function Projects() {
     {
       title: "Point Of Sale Software",
       descriptionKey: "pos",
-      tags: ["C#", "MongoDB"],
+      tags: ["C#",".NET MAUI", "SQLite"],
       images: ['/My-Portfolio/images/pos1.png',
       '/My-Portfolio/images/pos2.png'],
       
@@ -178,7 +178,7 @@ export default function Projects() {
     {
       title: "GameZone",
       descriptionKey: "gamezone",
-      tags: ["TypeScript", "React", "Express", "PostgreSQL", "Docker"],
+      tags: ["JavaScript", "HTML", "CSS", "Vite", "Three.js"],
       images: ['/My-Portfolio/images/gamezone1.png',
         '/My-Portfolio/images/gamezone2.png',
         '/My-Portfolio/images/gamezone3.png',],

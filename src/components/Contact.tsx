@@ -85,7 +85,7 @@ const handleChange = (e: ChangeEvent) => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="section-title gradient-text">{t('title')}</h2>
-          <p className="text-gray-300 max-w-2xl mx-auto">
+          <p className="text-[var(--secondary-text)] max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
           <div className="mt-4 text-amber-400 font-medium bg-amber-400/10 border border-amber-400/20 rounded-lg p-3 max-w-2xl mx-auto mb-[-40]">
