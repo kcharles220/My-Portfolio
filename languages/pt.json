@@ -84,7 +84,10 @@
     "emailLabel": "Email",
     "locationLabel": "Localização",
     "location": "Leiria, Portugal",
-    "connect": "Conecte-se Comigo"
+    "connect": "Conecte-se Comigo",
+    "sending": "A enviar...",
+    "success": "Messagem enviada!",
+    "error": "Erro: Contacte-me por e-mail diretamente."
   },
   "footer": {
     "portfolio": "O Meu Portfólio",

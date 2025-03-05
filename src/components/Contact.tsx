@@ -2,13 +2,72 @@
 
 import { useState, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import emailjs from '@emailjs/browser';
 import { useTranslations } from 'next-intl';
 
 const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
 const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+const StatusToast = ({ status, message }: { status: 'sending' | 'success' | 'error'; message: string }) => {
+  const variants = {
+    hidden: { opacity: 0, y: 20 }, 
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 20 } 
+  };
+
+  const toastStyles = {
+    sending: {
+      bgColor: 'bg-cyan-400/20', 
+      borderColor: 'border-cyan-400/30',
+      textColor: 'text-cyan-400',
+      icon: (
+        <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+      )
+    },
+    success: {
+      bgColor: 'bg-green-400/20',
+      borderColor: 'border-green-400/30', 
+      textColor: 'text-green-400',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      )
+    },
+    error: {
+      bgColor: 'bg-red-400/20', 
+      borderColor: 'border-red-400/30',
+      textColor: 'text-red-400',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      )
+    }
+  };
+
+  const style = toastStyles[status];
+
+  return (
+    <motion.div
+      className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[90%] max-w-md glass-panel ${style.bgColor} border ${style.borderColor} rounded-lg p-4 shadow-lg shadow-black/20 z-50 flex items-center gap-3`}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      variants={variants}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+      <div className={`p-2 rounded-full ${style.bgColor} ${style.textColor}`}>
+        {style.icon}
+      </div>
+      <p className={`${style.textColor} font-medium`}>{message}</p>
+    </motion.div>
+  );
+};
 
 export default function Contact() {
   const t = useTranslations('contact');
@@ -20,8 +79,8 @@ export default function Contact() {
     message: ''
   })
   
-  const [, setFormStatus] = useState<'sending' | 'success' | 'error' | null>(null)
-  const [, setError] = useState<string | null>(null)
+  const [formStatus, setFormStatus] = useState<'sending' | 'success' | 'error' | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const [sectionRef, inView] = useInView({
     triggerOnce: true,
@@ -31,6 +90,16 @@ export default function Contact() {
   useEffect(() => {
     emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
   }, []);
+
+  // Auto-dismiss success/error messages after 5 seconds
+  useEffect(() => {
+    if (formStatus === 'success' || formStatus === 'error') {
+      const timer = setTimeout(() => {
+        setFormStatus(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [formStatus]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,33 +120,37 @@ export default function Contact() {
 
       setFormStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
-      // Reset form status after 3 seconds
-      setTimeout(() => setFormStatus(null), 3000);
     } catch (error) {
       console.error('Error sending email:', error);
       setFormStatus('error');
-      setError('Failed to send message. Please try again.');
+      setError(t('error'));
     }
   }
-/*
-interface ChangeEvent {
-    target: {
-        name: string;
-        value: string;
-    };
-}
 
-const handleChange = (e: ChangeEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-}
-*/
+  }
+
   return (
     <section id="contact" ref={sectionRef} className="py-20 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] via-purple-900/10 to-[var(--background)] opacity-50"></div>
       
+      {/* Toast Notifications */}
+      <AnimatePresence>
+        {formStatus === 'sending' && (
+          <StatusToast status="sending" message={t('sending')} />
+        )}
+        {formStatus === 'success' && (
+          <StatusToast status="success" message={t('success')} />
+        )}
+        {formStatus === 'error' && (
+          <StatusToast status="error" message={error || t('error')} />
+        )}
+      </AnimatePresence>
+      
       <div className="container mx-auto px-4 relative z-10">
+        {/* Rest of your component */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -88,9 +161,6 @@ const handleChange = (e: ChangeEvent) => {
           <p className="text-[var(--secondary-text)] max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
-          <div className="mt-4 text-amber-400 font-medium bg-amber-400/10 border border-amber-400/20 rounded-lg p-3 max-w-2xl mx-auto mb-[-40]">
-            ⚠️ {t('warning')}
-          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -100,65 +170,73 @@ const handleChange = (e: ChangeEvent) => {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="glass-panel p-6 opacity-50 cursor-not-allowed">
-              <div className="pointer-events-none">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">{t('name')}</label>
-                    <input
-                      disabled
-                      type="text"
-                      id="name"
-                      name="name"
-                      className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
-                      placeholder={t('namePlaceholder')}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">{t('email')}</label>
-                    <input
-                      disabled
-                      type="email"
-                      id="email"
-                      name="email"
-                      className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
-                      placeholder={t('emailPlaceholder')}
-                    />
-                  </div>
-                </div>
-                <div className="mb-6">
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">{t('subject')}</label>
+            <form onSubmit={handleSubmit} className="glass-panel p-6">
+              {/* Form fields remain the same */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">{t('name')}</label>
                   <input
-                    disabled
                     type="text"
-                    id="subject"
-                    name="subject"
-                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
-                    placeholder={t('subjectPlaceholder')}
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0"
+                    placeholder={t('namePlaceholder')}
+                    required
                   />
                 </div>
-                <div className="mb-6">
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">{t('message')}</label>
-                  <textarea
-                    disabled
-                    id="message"
-                    name="message"
-                    rows={6}
-                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed resize-none"
-                    placeholder={t('messagePlaceholder')}
-                  ></textarea>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">{t('email')}</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0"
+                    placeholder={t('emailPlaceholder')}
+                    required
+                  />
                 </div>
               </div>
+              <div className="mb-6">
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">{t('subject')}</label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 glass-panel bg-white/5 border-0"
+                  placeholder={t('subjectPlaceholder')}
+                  required
+                />
+              </div>
+              <div className="mb-6">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">{t('message')}</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={6}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 glass-panel bg-white/5 border-0 resize-none"
+                  placeholder={t('messagePlaceholder')}
+                  required
+                ></textarea>
+              </div>
               <button
-                disabled
                 type="submit"
-                className="glass-button glow px-6 py-3 opacity-50 cursor-not-allowed"
+                className={`glass-button glow px-6 py-3 ${formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={formStatus === 'sending'}
               >
                 {t('submit')}
               </button>
             </form>
           </motion.div>
 
+          {/* Contact info panel remains the same */}
           <motion.div
             className="md:col-span-1"
             initial={{ opacity: 0, x: 50 }}

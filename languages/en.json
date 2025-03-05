@@ -85,7 +85,10 @@
     "emailLabel": "Email",
     "locationLabel": "Location",
     "location": "Leiria, Portugal",
-    "connect": "Connect With Me"
+    "connect": "Connect With Me",
+    "sending": "Sending...",
+    "success": "Message sent successfully!",
+    "error": "Error: Contact me via email or social media instead."
   },
   "footer": {
     "portfolio": "My Portfolio",
