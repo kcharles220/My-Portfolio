@@ -160,7 +160,7 @@ export default function Hero() {
             >
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 via-cyan-400 to-pink-500 opacity-70 blur-2xl animate-pulse"></div>
               <div className="absolute inset-4 rounded-full glass-panel flex items-center justify-center overflow-hidden">
-                <div className="text-7xl">🤓</div>
+                <div className="text-7xl"></div>
               </div>
             </motion.div>
           </div>
