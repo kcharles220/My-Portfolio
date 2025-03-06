@@ -1,10 +1,21 @@
 // File: src/components/Skills.js
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image';
+
+// Share the same global cache used in Projects.tsx
+declare global {
+  // eslint-disable-next-line no-var
+  var loadedImages: { [key: string]: boolean };
+}
+
+if (typeof global.loadedImages === 'undefined') {
+  global.loadedImages = {};
+}
 
 interface SkillBarProps {
   name: string;
@@ -64,7 +75,16 @@ const SkillCard = ({ icon, name, description, delay }: SkillCardProps) => {
     </motion.div>
   )
 }
-
+const tools = [
+  { name: "Git & GitHub", icon: "/My-Portfolio/images/github.png" },
+  { name: "VSCode & Visual Studio", icon: "/My-Portfolio/images/vscode.png" },
+  { name: "Docker", icon: "/My-Portfolio/images/docker.png" },
+  { name: "Postman / Insomnia", icon: "/My-Portfolio/images/postman.png" },
+  { name: "Blender", icon: "/My-Portfolio/images/blender.png" },
+  { name: "MongoDB", icon: "/My-Portfolio/images/mongodb.png" },
+  { name: "YouTrack + Slack", icon: "/My-Portfolio/images/slack.png" },
+  { name: "Figma", icon: "/My-Portfolio/images/figma.png" }
+];
 export default function Skills() {
   const [sectionRef, inView] = useInView({
     triggerOnce: true,
@@ -74,11 +94,43 @@ export default function Skills() {
   const [activeTab, setActiveTab] = useState('technical')
   const t = useTranslations('skills');
   
+  // Add a state object to track image errors for all tools
+  const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
+
   // Map tab IDs to translation keys
   const tabNames = {
     'technical': '1',
     'soft': '2',
     'tools': '3'
+  };
+
+
+  // Preload tool images and mark them as loaded
+  useEffect(() => {
+    tools.forEach(tool => {
+      global.loadedImages[tool.icon] = true;
+    });
+  }, []);
+
+  // Define fallback emojis outside of the render function
+  const fallbackEmojis: {[key: string]: string} = {
+    "Git & GitHub": "💻",
+    "VSCode & Visual Studio": "🔧",
+    "Docker": "🐳",
+    "Postman / Insomnia": "📱",
+    "Blender": "🖌️",
+    "MongoDB": "📊",
+    "YouTrack + Slack": "💬",
+    "Figma": "🎨"
+  };
+
+  // Handle image error without breaking React's rules of Hooks
+  const handleImageError = (toolName: string) => {
+    console.log(`Fallback to emoji for: ${toolName}`);
+    setImageErrors(prev => ({
+      ...prev,
+      [toolName]: true
+    }));
   };
 
   return (
@@ -179,7 +231,7 @@ export default function Skills() {
                 delay={0.5}
               />
               <SkillCard 
-                icon="👑"
+                icon="💪"
                 name={t('261')}
                 description={t('262')}
                 delay={0.6}
@@ -195,28 +247,36 @@ export default function Skills() {
               transition={{ duration: 0.5 }}
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {[
-                  { name: "Git & GitHub", icon: "📂" },
-                  { name: "VS Code", icon: "👨‍💻" },
-                  { name: "Docker", icon: "🐳" },
-                  { name: "AWS", icon: "☁️" },
-                  { name: "Firebase", icon: "🔥" },
-                  { name: "MongoDB", icon: "🍃" },
-                  { name: "PostgreSQL", icon: "🐘" },
-                  { name: "Figma", icon: "🎨" }
-                ].map((tool, index) => (
-                  <motion.div 
-                    key={tool.name}
-                    className="text-center p-4 glass-panel hover:bg-white/10 transition-all duration-300"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.1, delay: index * 0.1 }}
-                  >
-                    <div className="text-3xl mb-2">{tool.icon}</div>
-                    <div>{tool.name}</div>
-                  </motion.div>
-                ))}
+                {tools.map((tool, index) => {
+                  return (
+                    <motion.div 
+                      key={tool.name}
+                      className="text-center p-4 glass-panel hover:bg-white/10 transition-all duration-300"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.1, delay: index * 0.1 }}
+                    >
+                      <div className="h-16 flex items-center justify-center mb-2">
+                        {imageErrors[tool.name] ? (
+                          <div className="text-3xl">{fallbackEmojis[tool.name] || '🔧'}</div>
+                        ) : (
+                          <Image 
+                            src={tool.icon}
+                            alt={tool.name}
+                            width={48}
+                            height={48}
+                            className="h-12 w-auto object-contain"
+                            loading="lazy"
+                            onError={() => handleImageError(tool.name)}
+                            {...(global.loadedImages[tool.icon] ? { placeholder: "empty" } : {})}
+                          />
+                        )}
+                      </div>
+                      <div>{tool.name}</div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </motion.div>
           )}

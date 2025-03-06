@@ -13,16 +13,18 @@ import { ReactNode } from 'react';
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
+      <body className="bg-[var(--background)]">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem={true}
           disableTransitionOnChange
         >
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
+          <div className="mx-auto max-w-[2000px] px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+            <LanguageProvider>
+              {children}
+            </LanguageProvider>
+          </div>
         </ThemeProvider>
       </body>
     </html>

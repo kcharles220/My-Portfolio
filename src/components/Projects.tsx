@@ -8,6 +8,9 @@ import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
 import { useTranslations } from 'next-intl'
 
+// Create a global cache to track loaded images
+const loadedImages: { [key: string]: boolean } = {}
+
 type Translator = (key: string) => string;
 const ProjectCard = ({ project, index, t }: { project: Project; index: number; t: Translator }) => {
   const { resolvedTheme } = useTheme()
@@ -29,6 +32,13 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
 
     return () => clearInterval(interval);
   }, [isHovered, project.images.length]);
+
+  // Mark all project images as preloaded
+  useEffect(() => {
+    project.images.forEach(img => {
+      loadedImages[img] = true;
+    });
+  }, [project.images]);
 
   return (
     <motion.div
@@ -58,6 +68,7 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102 rounded-md"
               fill
               loading="lazy"
+              {...(loadedImages[image] ? { placeholder: "empty" } : {})}
             />
           </div>
         ))}
@@ -169,11 +180,11 @@ export default function Projects() {
     {
       title: "Point Of Sale Software",
       descriptionKey: "pos",
-      tags: ["C#",".NET MAUI", "SQLite"],
+      tags: ["C#", ".NET MAUI", "SQLite"],
       images: ['/My-Portfolio/images/pos1.png',
-      '/My-Portfolio/images/pos2.png'],
-      
-      
+        '/My-Portfolio/images/pos2.png'],
+
+
     },
     {
       title: "GameZone",
@@ -182,7 +193,7 @@ export default function Projects() {
       images: ['/My-Portfolio/images/gamezone1.png',
         '/My-Portfolio/images/gamezone2.png',
         '/My-Portfolio/images/gamezone3.png',],
-      
+
     }
   ];
 

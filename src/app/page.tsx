@@ -34,13 +34,21 @@ export default function Home() {
       '/My-Portfolio/images/gamezone3.png',
       '/My-Portfolio/images/pos1.png',
       '/My-Portfolio/images/pos2.png',
+      "/My-Portfolio/images/github.png",
+      "/My-Portfolio/images/vscode.png",
+      "/My-Portfolio/images/docker.png",
+      "/My-Portfolio/images/postman.png",
+      "/My-Portfolio/images/blender.png",
+      "/My-Portfolio/images/mongodb.png",
+      "/My-Portfolio/images/slack.png",
+      "/My-Portfolio/images/figma.png"
     ]
 
     // Function to preload images
     const preloadImages = async () => {
       let loadedCount = 0;
       const totalImages = imagesToPreload.length;
-      
+
       const imagePromises = imagesToPreload.map(src => {
         return new Promise<void>((resolve, reject) => {
           const img = new Image()
@@ -53,7 +61,7 @@ export default function Home() {
           img.onerror = reject
         })
       })
-  
+
       try {
         await Promise.all(imagePromises)
         setAssetsLoaded(true)
@@ -86,11 +94,11 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'skills', 'projects', 'contact']
-      
+
       for (const section of sections) {
         const element = document.getElementById(section)
         if (!element) continue
-        
+
         const rect = element.getBoundingClientRect()
         if (rect.top <= 100 && rect.bottom >= 100) {
           setActiveSection(section)
@@ -106,20 +114,20 @@ export default function Home() {
   return (
     <main className="relative">
       <Particles />
-      
+
       <AnimatePresence>
         {isLoading ? (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black"
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
             <GooLoader />
-            
+
             {/* Progress Bar */}
             <div className="mt-8 w-64 relative">
               <div className="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                <motion.div 
+                <motion.div
                   className="h-full bg-gradient-to-r from-[#a855f7] via-[#22d3ee] to-[#ec4899]"
                   initial={{ width: "0%" }}
                   animate={{ width: `${loadingProgress}%` }}
@@ -133,7 +141,7 @@ export default function Home() {
                 {loadingProgress}%
               </div>
             </div>
-            
+
             {/* Hidden SVG filter */}
             <svg style={{ position: 'absolute', width: 0, height: 0 }}>
               <defs>

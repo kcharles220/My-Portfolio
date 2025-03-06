@@ -32,7 +32,6 @@ export default function ThemeToggle() {
       whileTap={{ scale: 0.95 }}
     >
       <div className="relative w-full h-full">
-        {/* Flashlight beam effect */}
         <motion.div
           className="absolute pointer-events-none"
           animate={{
@@ -49,13 +48,12 @@ export default function ThemeToggle() {
           }}
         />
 
-        {/* Flashlight icon */}
         <motion.svg
           viewBox="0 0 24 24"
           className={`w-6 h-6 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
             theme === 'light' ? 'text-black' : 'text-white'
           }`}
-          animate={{ rotate: theme === 'dark' ? 0 : 180 }}
+          animate={{ rotate: theme === 'light' ? 0 : 180 }}
         >
           <path
             fill="currentColor"
