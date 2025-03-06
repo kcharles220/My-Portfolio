@@ -150,7 +150,6 @@ export default function Contact() {
       </AnimatePresence>
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Rest of your component */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -161,27 +160,32 @@ export default function Contact() {
           <p className="text-[var(--secondary-text)] max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
+          <div className="mt-4 text-amber-400 font-medium bg-amber-400/10 border border-amber-400/20 rounded-lg p-3 max-w-2xl mx-auto mb-[-40]">
+            ⚠️ {t('warning')}
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
           <motion.div
             className="md:col-span-2"
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="glass-panel p-6">
+            <form onSubmit={handleSubmit} className="glass-panel p-6 opacity-50 cursor-not-allowed">
               {/* Form fields remain the same */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">{t('name')}</label>
                   <input
+                    disabled
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0"
+                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
                     placeholder={t('namePlaceholder')}
                     required
                   />
@@ -189,12 +193,13 @@ export default function Contact() {
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">{t('email')}</label>
                   <input
+                  disabled
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0"
+                    className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
                     placeholder={t('emailPlaceholder')}
                     required
                   />
@@ -203,12 +208,13 @@ export default function Contact() {
               <div className="mb-6">
                 <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-1">{t('subject')}</label>
                 <input
+                disabled
                   type="text"
                   id="subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 glass-panel bg-white/5 border-0"
+                  className="w-full px-4 py-2 glass-panel bg-white/5 border-0 cursor-not-allowed"
                   placeholder={t('subjectPlaceholder')}
                   required
                 />
@@ -216,20 +222,21 @@ export default function Contact() {
               <div className="mb-6">
                 <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-1">{t('message')}</label>
                 <textarea
+                disabled
                   id="message"
                   name="message"
                   rows={6}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 glass-panel bg-white/5 border-0 resize-none"
+                  className="w-full px-4 py-2 glass-panel bg-white/5 border-0 resize-none cursor-not-allowed"
                   placeholder={t('messagePlaceholder')}
                   required
                 ></textarea>
               </div>
               <button
+              disabled
                 type="submit"
-                className={`glass-button glow px-6 py-3 ${formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''}`}
-                disabled={formStatus === 'sending'}
+                className={`glass-button glow px-6 py-3  cursor-not-allowed ${formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {t('submit')}
               </button>
