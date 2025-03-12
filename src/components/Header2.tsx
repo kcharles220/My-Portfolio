@@ -14,7 +14,7 @@ interface HeaderProps {
 
 export default function Header({ activeSection }: HeaderProps) {
   const t = useTranslations('header');
-  const { } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentText, setCurrentText] = useState('Welcome')
@@ -63,16 +63,16 @@ export default function Header({ activeSection }: HeaderProps) {
   return (
     <div className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
       <motion.header
-        className={`transition-all transition-[border,background] duration-500 max-w-[2000px] mx-auto ${scrolled
-          ? `md:rounded-full backdrop-blur-sm bg-white/5 md:border border-[var(--some-border-color)]/20 py-2 mt-4`
-          : 'bg-transparent border-transparent py-4'
-          }`}
+        className={`transition-all transition-[border,background] duration-500 max-w-[2000px] mx-auto ${
+          scrolled
+            ? 'md:rounded-full md:backdrop-blur-sm md:bg-white/5 md:border md:border-[var(--some-border-color)]/20 md:py-2 md:mt-4'
+            : 'bg-transparent border-transparent py-4'
+        } ${scrolled ? 'md:block' : ''}`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <div className={`container mx-auto px-4 flex justify-between items-center ${scrolled ? 'md:px-8' : ''
-          }`}>
+        <div className="container mx-auto px-4 flex justify-between items-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentText}
@@ -80,8 +80,9 @@ export default function Header({ activeSection }: HeaderProps) {
               animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className={`text-2xl font-bold text-transparent bg-clip-text animate-pulse-gradient ${scrolled ? 'hidden' : 'block'
-                }`}
+              className={`text-2xl font-bold text-transparent bg-clip-text animate-pulse-gradient ${
+                scrolled ? 'hidden' : 'block'
+              }`}
             >
               {currentText}
             </motion.div>
@@ -124,17 +125,20 @@ export default function Header({ activeSection }: HeaderProps) {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 mx-5"
+            className="md:hidden p-2 fixed top-4 right-4 z-50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
             <div className="w-6 h-5 relative flex flex-col justify-between">
-              <span className={`w-full h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-                }`}></span>
-              <span className={`w-full h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'
-                }`}></span>
-              <span className={`w-full h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-                }`}></span>
+              <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
+                mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
+              }`}></span>
+              <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
+                mobileMenuOpen ? 'opacity-0' : 'opacity-100'
+              }`}></span>
+              <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
+                mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
+              }`}></span>
             </div>
           </button>
         </div>
@@ -161,6 +165,11 @@ export default function Header({ activeSection }: HeaderProps) {
                 </button>
               </li>
             ))}
+            {/* Theme and Language Toggles */}
+            <li className="flex items-center justify-start gap-4 px-4 py-2">
+              <ThemeToggle />
+              <LanguageSwitcher />
+            </li>
           </ul>
         </motion.nav>
       </motion.header>
