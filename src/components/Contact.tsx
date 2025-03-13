@@ -133,7 +133,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" ref={sectionRef} className="py-20 relative">
+    <section id="contact" ref={sectionRef} className="py-20 relative w-full overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)] via-purple-900/10 to-[var(--background)] opacity-50"></div>
       
       {/* Toast Notifications */}
@@ -149,7 +149,7 @@ export default function Contact() {
         )}
       </AnimatePresence>
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="max-w-[2000px] w-full mx-auto px-4 relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -160,22 +160,20 @@ export default function Contact() {
           <p className="text-[var(--secondary-text)] max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
-          <div className="mt-4 text-amber-400 font-medium bg-amber-400/10 border border-amber-400/20 rounded-lg p-3 max-w-2xl mx-auto mb-[-40]">
+          <div className="mt-4 text-amber-400 font-medium bg-amber-400/10 border border-amber-400/20 rounded-lg p-3 max-w-2xl mx-auto">
             ⚠️ {t('warning')}
           </div>
         </motion.div>
 
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
           <motion.div
             className="md:col-span-2"
             initial={{ opacity: 0, x: -50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            <form onSubmit={handleSubmit} className="glass-panel p-6 opacity-50 cursor-not-allowed">
-              {/* Form fields remain the same */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <form onSubmit={handleSubmit} className="glass-panel p-4 md:p-6 opacity-50 cursor-not-allowed">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-1">{t('name')}</label>
                   <input
@@ -236,39 +234,38 @@ export default function Contact() {
               <button
               disabled
                 type="submit"
-                className={`glass-button glow px-6 py-3  cursor-not-allowed ${formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`glass-button glow px-6 py-3 cursor-not-allowed ${formStatus === 'sending' ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {t('submit')}
               </button>
             </form>
           </motion.div>
 
-          {/* Contact info panel remains the same */}
           <motion.div
             className="md:col-span-1"
             initial={{ opacity: 0, x: 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <div className="glass-panel p-6 h-full flex flex-col justify-between">
+            <div className="glass-panel p-4 md:p-6 h-full flex flex-col justify-between">
               <div>
                 <h3 className="text-xl font-bold mb-6">{t('contactInfo')}</h3>
                 
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
-                    <div className="p-2 glass-panel rounded-full text-cyan-400 ">
+                    <div className="p-2 glass-panel rounded-full text-cyan-400 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                       </svg>
                     </div>
-                    <div>
+                    <div className="overflow-hidden">
                       <h4 className="font-medium">{t('emailLabel')}</h4>
-                      <a href="mailto:carlos.ppinto220@gmail.com" className="text-[var(--secondary-text)] hover:text-[var(--text)] transition-colors">carlos.ppinto220@gmail.com</a>
+                      <a href="mailto:carlos.ppinto220@gmail.com" className="text-[var(--secondary-text)] hover:text-[var(--text)] transition-colors break-all">carlos.ppinto220@gmail.com</a>
                     </div>
                   </div>
                   
                   <div className="flex items-center gap-4">
-                    <div className="p-2 glass-panel rounded-full text-cyan-400">
+                    <div className="p-2 glass-panel rounded-full text-cyan-400 flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>

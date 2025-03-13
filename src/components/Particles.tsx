@@ -20,16 +20,49 @@ export default function Particles() {
   const particlesRef = useRef<Particle[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
   const animationFrameRef = useRef<number | null>(null)
+  const lastSizeRef = useRef({ width: 0, height: 0 })
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [isMounted, setIsMounted] = useState(false)
 
   const particleConfig = useRef({
-    PARTICLE_COUNT: 100,
+    // Base configuration will be adjusted based on screen size
+    PARTICLE_DENSITY: 0.000075, // Particles per pixel
     PARTICLE_SIZE_RANGE: { min: 1, max: 3 },
-    PARTICLE_SPEED: 0.35,
+    PARTICLE_SPEED: 0.3,
     CONNECTION_DISTANCE: 150,
     MOUSE_INFLUENCE_DISTANCE: 80,
     MOUSE_REPEL_STRENGTH: 0.5
   })
+
+  // Calculate appropriate number of particles based on screen size
+  const calculateParticleCount = (width: number, height: number) => {
+    const screenArea = width * height;
+    const baseCount = Math.floor(screenArea * particleConfig.current.PARTICLE_DENSITY);
+    
+    // Scale down for smaller screens, ensure minimum and maximum
+    if (width <= 768) {
+      return Math.min(Math.max(30, baseCount), 50);
+    }
+    
+    return Math.min(Math.max(50, baseCount), 150);
+  };
+
+  // Initialize particles based on canvas dimensions
+  const initializeParticles = (canvas: HTMLCanvasElement) => {
+    const particleCount = calculateParticleCount(canvas.width, canvas.height);
+    
+    // Adjust connection distance for smaller screens
+    particleConfig.current.CONNECTION_DISTANCE = canvas.width <= 768 ? 100 : 150;
+    
+    return Array.from({ length: particleCount }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * (particleConfig.current.PARTICLE_SIZE_RANGE.max - particleConfig.current.PARTICLE_SIZE_RANGE.min) + particleConfig.current.PARTICLE_SIZE_RANGE.min,
+      speedX: (Math.random() - 0.5) * particleConfig.current.PARTICLE_SPEED,
+      speedY: (Math.random() - 0.5) * particleConfig.current.PARTICLE_SPEED,
+      opacity: Math.random() * 0.5 + 0.3
+    }));
+  };
 
   // Handle mounting state
   useEffect(() => {
@@ -44,9 +77,6 @@ export default function Particles() {
 
     // Use config from ref
     const { 
-      PARTICLE_COUNT, 
-      PARTICLE_SIZE_RANGE, 
-      PARTICLE_SPEED,
       CONNECTION_DISTANCE,
       MOUSE_INFLUENCE_DISTANCE,
       MOUSE_REPEL_STRENGTH 
@@ -61,19 +91,31 @@ export default function Particles() {
     const handleResize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
+      
+      // Check if size changed significantly (more than 20% in either dimension)
+      const widthChange = Math.abs(canvas.width - lastSizeRef.current.width) / lastSizeRef.current.width;
+      const heightChange = Math.abs(canvas.height - lastSizeRef.current.height) / lastSizeRef.current.height;
+      
+      if (lastSizeRef.current.width === 0 || widthChange > 0.2 || heightChange > 0.2) {
+        // Clear previous timeout if it exists
+        if (resizeTimeoutRef.current) {
+          clearTimeout(resizeTimeoutRef.current);
+        }
+        
+        // Debounce re-initialization
+        resizeTimeoutRef.current = setTimeout(() => {
+          particlesRef.current = initializeParticles(canvas);
+          lastSizeRef.current = { width: canvas.width, height: canvas.height };
+        }, 300);
+      }
     }
+    
     handleResize()
     window.addEventListener('resize', handleResize)
-
+    
     // Initialize particles
-    particlesRef.current = Array.from({ length: PARTICLE_COUNT }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * (PARTICLE_SIZE_RANGE.max - PARTICLE_SIZE_RANGE.min) + PARTICLE_SIZE_RANGE.min,
-      speedX: (Math.random() - 0.5) * PARTICLE_SPEED,
-      speedY: (Math.random() - 0.5) * PARTICLE_SPEED,
-      opacity: Math.random() * 0.5 + 0.3
-    }))
+    particlesRef.current = initializeParticles(canvas);
+    lastSizeRef.current = { width: canvas.width, height: canvas.height };
 
     // Mouse move handler
     const handleMouseMove = (e: MouseEvent) => {
@@ -111,7 +153,7 @@ export default function Particles() {
         if (particle.x < 0 || particle.x > canvas.width) particle.speedX *= -1
         if (particle.y < 0 || particle.y > canvas.height) particle.speedY *= -1
 
-        const particleColor = resolvedTheme === 'dark' ? '255, 255, 255' : '0, 0, 0' // Use resolvedTheme instead of theme
+        const particleColor = resolvedTheme === 'dark' ? '255, 255, 255' : '0, 0, 0' 
         
         // Draw particle
         context.beginPath()
@@ -148,6 +190,9 @@ export default function Particles() {
       window.removeEventListener('mousemove', handleMouseMove)
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
+      }
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current)
       }
     }
   }, [resolvedTheme, isMounted])

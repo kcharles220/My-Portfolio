@@ -59,11 +59,11 @@ export default function About() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.4 }}
           >
-            <div className="glass-panel p-6 relative ">
+            <div className="glass-panel p-6 relative">
               <h3 className="text-xl font-bold mb-6">{t("card2title")}</h3>
               
-              {/* Timeline container using grid */}
-              <div className="grid grid-cols-[120px_40px_1fr] ">
+              {/* Timeline container using responsive grid */}
+              <div className="grid grid-cols-[80px_30px_1fr] sm:grid-cols-[100px_40px_1fr] md:grid-cols-[120px_40px_1fr]">
                 {[
                   {
                     year: "2024",
@@ -80,20 +80,20 @@ export default function About() {
                 ].map((item, index, array) => (
                   <React.Fragment key={index}>
                     {/* Year column */}
-                    <div className="text-right text-[var(--secondary-text)] font-semibold pr-4 pt-1">
+                    <div className="text-right text-[var(--secondary-text)] font-semibold pr-2 sm:pr-4 pt-1 text-sm sm:text-base">
                       {item.year}
                     </div>
 
                     {/* Timeline bar and dot column */}
                     <div className="relative">
-                      <div className={`absolute left-1/2 w-0.5 bg-gradient-to-b from-purple-500 via-cyan-400 to-pink-500 transform -translate-x-1/2  ${index === array.length - 1 ? 'h-3/4' : 'h-full'}`}></div>
-                      <div className="absolute top-1.5 left-1/2 w-3 h-3 rounded-full border-2 border-cyan-400 bg-black transform -translate-x-1/2"></div>
+                      <div className={`absolute left-1/2 w-0.5 bg-gradient-to-b from-purple-500 via-cyan-400 to-pink-500 transform -translate-x-1/2 ${index === array.length - 1 ? 'h-3/4' : 'h-full'}`}></div>
+                      <div className="absolute top-1.5 left-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border-2 border-cyan-400 bg-black transform -translate-x-1/2"></div>
                     </div>
 
                     {/* Content column */}
-                    <div className={`glass-panel p-4 ml-[-4] mr-4 cursor-pointer transition-all duration-300 mb-8 ${resolvedTheme === 'dark' ? 'hover:bg-[rgba(62,62,63,1)]' : 'bg-gray-100 hover:bg-white'} hover:ml-4 hover:mr-[-4]`}>
-                      <h4 className="text-lg font-semibold text-[var(--text)] mb-1">{item.title}</h4>
-                      <p className="text-[var(--secondary-text)]">{item.description}</p>
+                    <div className={`glass-panel p-3 sm:p-4 ml-[-4] mr-4 cursor-pointer transition-all duration-300 mb-6 sm:mb-8 ${resolvedTheme === 'dark' ? 'hover:bg-[rgba(62,62,63,1)]' : 'bg-gray-100 hover:bg-white'} hover:ml-2 sm:hover:ml-4 hover:mr-[-4]`}>
+                      <h4 className="text-base sm:text-lg font-semibold text-[var(--text)] mb-1">{item.title}</h4>
+                      <p className="text-[var(--secondary-text)] text-sm sm:text-base">{item.description}</p>
                     </div>
                   </React.Fragment>
                 ))}

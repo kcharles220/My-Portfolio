@@ -61,13 +61,14 @@ export default function Header({ activeSection }: HeaderProps) {
   ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+    <div className="fixed top-0 left-0 right-0 z-40 w-full">
       <motion.header
-        className={`transition-all transition-[border,background] duration-500 max-w-[2000px] mx-auto ${
+        className={`transition-all transition-[border,background] duration-500 mx-auto max-w-[2000px]
+          hidden md:block ${
           scrolled
-            ? 'md:rounded-full md:backdrop-blur-sm md:bg-white/5 md:border md:border-[var(--some-border-color)]/20 md:py-2 md:mt-4'
+            ? 'md:rounded-full md:backdrop-blur-sm md:bg-white/5 md:border md:border-[var(--some-border-color)]/20 md:py-2 md:mt-4 md:mx-4'
             : 'bg-transparent border-transparent py-4'
-        } ${scrolled ? 'md:block' : ''}`}
+        }`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -80,7 +81,7 @@ export default function Header({ activeSection }: HeaderProps) {
               animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className={`text-2xl font-bold text-transparent bg-clip-text animate-pulse-gradient ${
+            className={`whitespace-nowrap mr-4 lg:text-2xl md:text-xl font-bold text-transparent bg-clip-text animate-pulse-gradient ${
                 scrolled ? 'hidden' : 'block'
               }`}
             >
@@ -89,7 +90,7 @@ export default function Header({ activeSection }: HeaderProps) {
           </AnimatePresence>
 
           {/* Desktop Navigation */}
-          <nav className={`md:block transition-all duration-500 ${scrolled ? 'w-full' : 'hidden'}`}>
+          <nav className={`transition-all duration-500 ${scrolled ? 'w-full' : ''}`}>
             <ul className={`flex space-x-6 transition-all duration-500 ${scrolled ? 'justify-center' : 'justify-start'}`}>
               {navItems.map((item) => (
                 <motion.li
@@ -122,57 +123,57 @@ export default function Header({ activeSection }: HeaderProps) {
               </motion.li>
             </ul>
           </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 fixed top-4 right-4 z-50"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <div className="w-6 h-5 relative flex flex-col justify-between">
-              <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
-                mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-              }`}></span>
-              <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
-                mobileMenuOpen ? 'opacity-0' : 'opacity-100'
-              }`}></span>
-              <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
-                mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-              }`}></span>
-            </div>
-          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        <motion.nav
-          className={`md:hidden absolute w-full glass-panel mt-2 ${mobileMenuOpen ? 'block' : 'hidden'
-            }`}
-          initial={{ opacity: 0, height: 0 }}
-          animate={{
-            opacity: mobileMenuOpen ? 1 : 0,
-            height: mobileMenuOpen ? 'auto' : 0
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          <ul className="py-4 px-4 space-y-3">
-            {navItems.map((item) => (
-              <li key={item.id}>
-                <button
-                  onClick={() => scrollToSection({ sectionId: item.id })}
-                  className={`w-full text-left px-4 py-2 block capitalize ${activeSection === item.id ? 'gradient-text font-bold' : ''}`}
-                >
-                  {item.label}
-                </button>
-              </li>
-            ))}
-            {/* Theme and Language Toggles */}
-            <li className="flex items-center justify-start gap-4 px-4 py-2">
-              <ThemeToggle />
-              <LanguageSwitcher />
-            </li>
-          </ul>
-        </motion.nav>
       </motion.header>
+
+      {/* Mobile Menu Button - Always visible on mobile */}
+      <button
+        className="md:hidden p-2 fixed top-4 right-4 z-50"
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        <div className="w-6 h-5 relative flex flex-col justify-between">
+          <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
+            mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
+          }`}></span>
+          <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
+            mobileMenuOpen ? 'opacity-0' : 'opacity-100'
+          }`}></span>
+          <span className={`w-full h-0.5 ${resolvedTheme === 'light' ? 'bg-black' : 'bg-white'} transition-all duration-300 ${
+            mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
+          }`}></span>
+        </div>
+      </button>
+
+      {/* Mobile Navigation */}
+      <motion.nav
+        className="md:hidden fixed top-12 left-0 right-0 w-[100%] glass-panel mx-auto"
+        initial={{ opacity: 0, height: 0 }}
+        animate={{
+          opacity: mobileMenuOpen ? 1 : 0,
+          height: mobileMenuOpen ? 'auto' : 0,
+          display: mobileMenuOpen ? 'block' : 'none'
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <ul className="py-4 px-4 space-y-3">
+          {navItems.map((item) => (
+            <li key={item.id}>
+              <button
+                onClick={() => scrollToSection({ sectionId: item.id })}
+                className={`w-full text-left px-4 py-2 block capitalize ${activeSection === item.id ? 'gradient-text font-bold' : ''}`}
+              >
+                {item.label}
+              </button>
+            </li>
+          ))}
+          {/* Theme and Language Toggles */}
+          <li className="flex items-center justify-start gap-4 px-4 py-2">
+            <ThemeToggle />
+            <LanguageSwitcher />
+          </li>
+        </ul>
+      </motion.nav>
     </div>
   )
 }
