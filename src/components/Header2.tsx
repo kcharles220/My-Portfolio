@@ -41,14 +41,23 @@ export default function Header({ activeSection }: HeaderProps) {
   }
 
   const scrollToSection = ({ sectionId }: ScrollToSectionProps) => {
+    // First get the element
     const element = document.getElementById(sectionId)
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop - 80,
-        behavior: 'smooth'
-      })
-    }
+    
+    // Close menu first and then scroll with a delay
     setMobileMenuOpen(false)
+    
+    // Use setTimeout to ensure the menu closing animation doesn't interfere
+    setTimeout(() => {
+      if (element) {
+        // Calculate offset and scroll
+        const offsetTop = element.getBoundingClientRect().top + window.scrollY
+        window.scrollTo({
+          top: offsetTop - 80,
+          behavior: 'smooth'
+        })
+      }
+    }, 100)
   }
 
   // Array of navigation items with their section IDs
@@ -81,7 +90,7 @@ export default function Header({ activeSection }: HeaderProps) {
               animate={{ opacity: scrolled ? 0 : 1, y: scrolled ? -20 : 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-            className={`whitespace-nowrap mr-4 lg:text-2xl md:text-xl font-bold text-transparent bg-clip-text animate-pulse-gradient ${
+              className={`whitespace-nowrap mr-4 lg:text-2xl md:text-xl font-bold text-transparent bg-clip-text animate-pulse-gradient ${
                 scrolled ? 'hidden' : 'block'
               }`}
             >
@@ -147,30 +156,38 @@ export default function Header({ activeSection }: HeaderProps) {
 
       {/* Mobile Navigation */}
       <motion.nav
-        className="md:hidden fixed top-12 left-0 right-0 w-[100%] glass-panel mx-auto"
-        initial={{ opacity: 0, height: 0 }}
+        className="md:hidden fixed top-12 right-4 w-auto min-w-[200px] max-w-[250px] glass-panel rounded-lg shadow-lg overflow-hidden"
+        initial={{ opacity: 0, height: 0, scale: 0.95 }}
         animate={{
           opacity: mobileMenuOpen ? 1 : 0,
           height: mobileMenuOpen ? 'auto' : 0,
+          scale: mobileMenuOpen ? 1 : 0.95,
           display: mobileMenuOpen ? 'block' : 'none'
         }}
         transition={{ duration: 0.3 }}
       >
-        <ul className="py-4 px-4 space-y-3">
+        <ul className="py-4 px-2 space-y-3">
           {navItems.map((item) => (
             <li key={item.id}>
               <button
                 onClick={() => scrollToSection({ sectionId: item.id })}
-                className={`w-full text-left px-4 py-2 block capitalize ${activeSection === item.id ? 'gradient-text font-bold' : ''}`}
+                className={`w-full text-left px-4 py-2 rounded-md hover:bg-white/10 transition-colors block capitalize ${activeSection === item.id ? 'gradient-text font-bold' : ''}`}
               >
                 {item.label}
               </button>
             </li>
           ))}
-          {/* Theme and Language Toggles */}
-          <li className="flex items-center justify-start gap-4 px-4 py-2">
-            <ThemeToggle />
-            <LanguageSwitcher />
+          
+          {/* Theme and Language Toggles - Fixed centering */}
+          <li className="border-t border-white/10 pt-3 mt-2">
+            <div className="flex items-center justify-evenly w-full">
+              <div className="flex-1 flex justify-center">
+                <ThemeToggle />
+              </div>
+              <div className="flex-1 flex justify-center">
+                <LanguageSwitcher />
+              </div>
+            </div>
           </li>
         </ul>
       </motion.nav>

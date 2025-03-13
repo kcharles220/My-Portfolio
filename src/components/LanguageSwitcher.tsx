@@ -49,7 +49,7 @@ export default function LanguageSwitcher() {
         onMouseMove={handleMouseMove}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
-        className="z-50 w-12 h-12 rounded-full overflow-hidden cursor-pointer relative"
+        className="z-50 w-12 h-12 rounded-full overflow-hidden cursor-pointer align-center flex items-center justify-center"
       >
         <div className="relative w-full h-full">
           {/* Hover effect */}
