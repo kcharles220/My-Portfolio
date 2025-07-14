@@ -91,6 +91,38 @@ export default function Home() {
     }
   }, [assetsLoaded])
 
+  // Add hash navigation handling
+  useEffect(() => {
+    const handleHashNavigation = () => {
+      const hash = window.location.hash.slice(1);
+      
+      if (hash && !isLoading) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            const offsetTop = element.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+              top: offsetTop - 80,
+              behavior: 'smooth'
+            });
+            setActiveSection(hash);
+          }
+        }, 300);
+      }
+    };
+
+    // Handle hash navigation on page load
+    if (!isLoading) {
+      handleHashNavigation();
+    }
+
+    // Listen for hash changes (when user manually changes URL)
+    window.addEventListener('hashchange', handleHashNavigation);
+    
+    return () => window.removeEventListener('hashchange', handleHashNavigation);
+  }, [isLoading]);
+
+  // Update existing scroll handler to also update URL hash
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'skills', 'projects', 'contact']
@@ -102,6 +134,10 @@ export default function Home() {
         const rect = element.getBoundingClientRect()
         if (rect.top <= 100 && rect.bottom >= 100) {
           setActiveSection(section)
+          // Update URL hash without triggering scroll
+          if (window.location.hash !== `#${section}`) {
+            window.history.replaceState(null, '', `#${section}`);
+          }
           break
         }
       }
