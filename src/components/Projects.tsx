@@ -177,6 +177,7 @@ export default function Projects() {
         '/My-Portfolio/images/betwise3.png',],
       codeLink: "https://github.com/kcharles220/BetWise"
     },
+    /*
     {
       title: "Point Of Sale Software",
       descriptionKey: "pos",
@@ -185,6 +186,17 @@ export default function Projects() {
         '/My-Portfolio/images/pos2.png'],
 
 
+    },*/
+    {
+      title: "Disputed!",
+      descriptionKey: "disputed",
+      tags: ["Next.js", "Node.js", "Express", "MongoDB", "Socket.IO", "Tailwind CSS", "CI/CD", "Vercel", "AI Integration"],
+      images: ['/My-Portfolio/images/disputed1.png',
+        '/My-Portfolio/images/disputed2.png',
+        '/My-Portfolio/images/disputed3.png',
+      ],
+      demoLink: "https://disputed.vercel.app",
+      codeLink: "https://github.com/kcharles220/disputed"
     },
     {
       title: "GameZone",

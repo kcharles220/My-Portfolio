@@ -62,6 +62,7 @@
     "explorer": "A transparent blockchain explorer for tracking carbon offset initiatives on Hedera Hashgraph. Built for CO2Offset, to provide transparency to everyone.",
     "betwise": "A betting platform that fetches games via external APIs, offering a zero-house-edge model with auto-adjusting odds based on supply and demand. Supports user logins and secure cookies.",
     "pos": "A software designed for small businesses. Provides an easy-to-use interface for managing products, sales, clients and more.",
+    "disputed": "Disputed! is a 1v1 debate game (best of 3) where AI scores arguments to determine the winner. Built fullstack with Next.js, Express, and MongoDB, it features NextAuth authentication, WebSocket communication (Socket.IO), lobby system by ID, AI with custom prompts, and automated CI/CD.",
     "gamezone": "A website with some JavaScript-powered games, playable instantly in the browser—no downloads needed.",
     "liveDemo": "Live Demo",
     "viewCode": "View Code",

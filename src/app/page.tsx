@@ -32,8 +32,13 @@ export default function Home() {
       '/My-Portfolio/images/gamezone1.png',
       '/My-Portfolio/images/gamezone2.png',
       '/My-Portfolio/images/gamezone3.png',
+      /*
       '/My-Portfolio/images/pos1.png',
       '/My-Portfolio/images/pos2.png',
+      */
+      "/My-Portfolio/images/disputed1.png",
+      "/My-Portfolio/images/disputed2.png",
+      "/My-Portfolio/images/disputed3.png",
       "/My-Portfolio/images/github.png",
       "/My-Portfolio/images/vscode.png",
       "/My-Portfolio/images/docker.png",
