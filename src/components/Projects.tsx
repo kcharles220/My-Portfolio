@@ -166,7 +166,7 @@ export default function Projects() {
       descriptionKey: "explorer",
       tags: ["React", "API Integration", "Blockchain", "Chakra UI", "Docker", "Figma"],
       images: ["/My-Portfolio/images/explorer1.png", "/My-Portfolio/images/explorer2.png", "/My-Portfolio/images/explorer3.png", "/My-Portfolio/images/explorer4.png"],
-      Link: "https://explorer.co2offset.ai"
+      //Link: "https://explorer.co2offset.ai"
     },
     {
       title: "WiseBet",
@@ -195,7 +195,7 @@ export default function Projects() {
         '/My-Portfolio/images/disputed2.png',
         '/My-Portfolio/images/disputed3.png',
       ],
-      demoLink: "https://disputed.vercel.app",
+      Link: "https://disputed.vercel.app",
       codeLink: "https://github.com/kcharles220/disputed"
     },
     {
