@@ -46,7 +46,7 @@
     "212": "Identificar problemas e encontrar soluções criativas",
     "221": "Trabalho em Equipa",
     "222": "Colaborar com outros para alcançar objetivos comuns",
-    "231": "Comunicação",	
+    "231": "Comunicação",
     "232": "Expressar ideias de forma clara e eficaz com sinceridade",
     "241": "Adaptabilidade",
     "242": "Ajustar-se a novas condições e desafios",
@@ -61,8 +61,7 @@
     "explorer": "Um explorador de blockchain transparente para rastrear iniciativas de compensação de carbono na Hedera Hashgraph. Construído para a CO2Offset, para proporcionar transparência a todos.",
     "betwise": "Uma plataforma de apostas que obtém jogos através de APIs externas, oferecendo um modelo sem margem da casa com odds que se ajustam automaticamente com base na oferta e procura. Suporta logins de utilizador e cookies seguros.",
     "pos": "Um software desenhado para pequenas empresas. Fornece uma interface fácil de usar para gerir produtos, vendas, clientes e muito mais.",
-        "disputed": "Disputed! é um jogo de argumentação 1v1 à melhor de 3, onde uma IA avalia os argumentos para decidir o vencedor. Fullstack com Next.js, Express e MongoDB, conta com autenticação NextAuth, comunicação via WebSockets (Socket.IO), sistema de lobbies por ID, IA integrada com prompts customizados e CI/CD automático.",
-
+    "disputed": "Disputed! é um jogo de argumentação 1v1 à melhor de 3, onde uma IA avalia os argumentos para decidir o vencedor. Fullstack com Next.js, Express e MongoDB, conta com autenticação NextAuth, comunicação via WebSockets (Socket.IO), IA integrada e CI/CD automático.",
     "gamezone": "Um site com jogos em JavaScript, jogáveis instantaneamente no navegador—sem necessidade de downloads.",
     "liveDemo": "Demonstração",
     "viewCode": "Ver Código",
