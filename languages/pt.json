@@ -63,6 +63,7 @@
     "pos": "Um software desenhado para pequenas empresas. Fornece uma interface fácil de usar para gerir produtos, vendas, clientes e muito mais.",
     "disputed": "Disputed! é um jogo de argumentação 1v1 à melhor de 3, onde uma IA avalia os argumentos para decidir o vencedor. Fullstack com Next.js, Express e MongoDB, conta com autenticação NextAuth, comunicação via WebSockets (Socket.IO), IA integrada e CI/CD automático.",
     "gamezone": "Um site com jogos em JavaScript, jogáveis instantaneamente no navegador—sem necessidade de downloads.",
+    "worldlive": "Plataforma interativa que usa APIs e CesiumJS em tempo real para mostrar dados e eventos no globo. Um mundo dinâmico em 3D",
     "liveDemo": "Demonstração",
     "viewCode": "Ver Código",
     "open": "Abrir",

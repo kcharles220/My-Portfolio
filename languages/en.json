@@ -64,6 +64,7 @@
     "pos": "A software designed for small businesses. Provides an easy-to-use interface for managing products, sales, clients and more.",
     "disputed": "Disputed! is a 1v1 debate game (best of 3) where AI scores arguments to determine the winner. Built fullstack with Next.js, Express, and MongoDB, it features NextAuth authentication, WebSocket communication (Socket.IO), integrated AI and automated CI/CD.",
     "gamezone": "A website with some JavaScript-powered games, playable instantly in the browser—no downloads needed.",
+    "worldlive": "Interactive platform using APIs and CesiumJS in real time to display data and events across the globe. A dynamic 3D world.",
     "liveDemo": "Live Demo",
     "viewCode": "View Code",
     "open": "Open",

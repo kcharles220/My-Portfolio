@@ -100,16 +100,6 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
                   {t('liveDemo')}
                 </a>
               )}
-              {project.codeLink && (
-                <a
-                  href={project.codeLink}
-                  className="glass-button text-sm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('viewCode')}
-                </a>
-              )}
               {project.Link && (
                 <a
                   href={project.Link}
@@ -118,6 +108,16 @@ const ProjectCard = ({ project, index, t }: { project: Project; index: number; t
                   rel="noopener noreferrer"
                 >
                   {t('open')}
+                </a>
+              )}
+              {project.codeLink && (
+                <a
+                  href={project.codeLink}
+                  className="glass-button text-sm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t('viewCode')}
                 </a>
               )}
             </div>
@@ -168,15 +168,6 @@ export default function Projects() {
       images: ["/My-Portfolio/images/explorer1.png", "/My-Portfolio/images/explorer2.png", "/My-Portfolio/images/explorer3.png", "/My-Portfolio/images/explorer4.png"],
       //Link: "https://explorer.co2offset.ai"
     },
-    {
-      title: "WiseBet",
-      descriptionKey: "betwise",
-      tags: ["Next.js", "Typescript", "Node.js", "MongoDB", "REST API", "Cookies", "Authentication"],
-      images: ['/My-Portfolio/images/betwise1.png',
-        '/My-Portfolio/images/betwise2.png',
-        '/My-Portfolio/images/betwise3.png',],
-      codeLink: "https://github.com/kcharles220/BetWise"
-    },
     /*
     {
       title: "Point Of Sale Software",
@@ -186,11 +177,22 @@ export default function Projects() {
         '/My-Portfolio/images/pos2.png'],
 
 
-    },*/
+    },
+    
+     {
+      title: "GameZone",
+      descriptionKey: "gamezone",
+      tags: ["JavaScript", "HTML", "CSS", "Vite", "Three.js"],
+      images: ['/My-Portfolio/images/gamezone1.png',
+        '/My-Portfolio/images/gamezone2.png',
+        '/My-Portfolio/images/gamezone3.png',],
+
+    }, */
+
     {
       title: "Disputed!",
       descriptionKey: "disputed",
-      tags: ["Next.js", "Node.js", "Express", "MongoDB", "Socket.IO", "Tailwind CSS", "CI/CD", "Vercel", "AI Integration"],
+      tags: ["Next.js", "Node.js", "Cloud Hosting", "MongoDB", "Socket.IO", "Tailwind CSS", "CI/CD", "Vercel", "AI Integration"],
       images: ['/My-Portfolio/images/disputed1.png',
         '/My-Portfolio/images/disputed2.png',
         '/My-Portfolio/images/disputed3.png',
@@ -199,14 +201,26 @@ export default function Projects() {
       codeLink: "https://github.com/kcharles220/disputed"
     },
     {
-      title: "GameZone",
-      descriptionKey: "gamezone",
-      tags: ["JavaScript", "HTML", "CSS", "Vite", "Three.js"],
-      images: ['/My-Portfolio/images/gamezone1.png',
-        '/My-Portfolio/images/gamezone2.png',
-        '/My-Portfolio/images/gamezone3.png',],
-
-    }
+      title: "WorldLive",
+      descriptionKey: "worldlive",
+      tags: ["Next.js", "TypeScript", "Tailwind CSS", "REST API", "Ceasium", "Vercel"],
+      images: ['/My-Portfolio/images/worldlive1.png',
+        '/My-Portfolio/images/worldlive2.png',
+        '/My-Portfolio/images/worldlive3.png',
+        '/My-Portfolio/images/worldlive4.png'
+      ],
+      Link: "https://world-live.vercel.app",
+      codeLink: "https://github.com/kcharles220/worldlive"
+    },
+    {
+      title: "WiseBet",
+      descriptionKey: "betwise",
+      tags: ["Next.js", "Typescript", "Node.js", "MongoDB", "REST API", "Cookies", "Authentication"],
+      images: ['/My-Portfolio/images/betwise1.png',
+        '/My-Portfolio/images/betwise2.png',
+        '/My-Portfolio/images/betwise3.png',],
+      codeLink: "https://github.com/kcharles220/BetWise"
+    },
   ];
 
   return (
